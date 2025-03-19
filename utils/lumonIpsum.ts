@@ -14,7 +14,17 @@ const lumonPhrases = [
   "A clean cut is crucial to success",
   "We serve Kier",
   "Through Kier, all things are possible",
-  "Page 197 slaps."
+  "Page 197 slaps.",
+  "Hell is just the product of a morbid human imagination. The bad news is whatever humans can imagine they can usually create.",
+  "The surest way to tame a prisoner is to let him believe he's free",
+  "Tame thy tempers.",
+  "Render not my creation in miniature.",
+  "And I shall whisper to ye dutiful through the ages. In your noblest thoughts and epiphanies shall be my voice. You are my mouth, and through ye, I will whisper on when I am 10 centuries demised.",
+  "The remembered man does not decay.",
+  "Let not weakness live in your veins.",
+  "Be content in my words, and dally not in the scholastic pursuits of lesser men.",
+  "Come now, children of my industry, and know the children of my blood.",
+  "And all in Lumon’s care shall revel in the bounty of the incentives spur."
 ];
 
 const fillerWords = [
