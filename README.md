@@ -41,9 +41,28 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - TypeScript
 - Tailwind CSS
 
+## Security Guidelines
+
+When contributing to this project, please follow these security best practices:
+
+- Never commit sensitive information (API keys, tokens, passwords)
+- Keep dependencies up to date
+- Use environment variables for any configuration that might contain sensitive data
+- Follow the existing code style and TypeScript strict mode guidelines
+
+## Deployment
+
+This project is deployed on Vercel. The deployment process is automatic through the main branch.
+
 ## Contributing
 
-Feel free to submit issues and enhancement requests!
+Feel free to submit issues and enhancement requests! When contributing:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
