@@ -1,0 +1,36 @@
+{
+  "name": "Lumon Ipsum Generator",
+  "short_name": "Lumon Ipsum",
+  "description": "Generate Severance-themed placeholder text for your design projects. Corporate-approved Lorem Ipsum with Lumon Industries flavor.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e1a26",
+  "theme_color": "#afcbd6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["productivity", "developer", "utilities"],
+  "icons": [
+    {
+      "src": "/globe.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/lumon-globe.svg",
+      "sizes": "756x409",
+      "type": "image/svg+xml",
+      "form_factor": "wide"
+    }
+  ],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  }
+}
