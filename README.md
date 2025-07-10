@@ -36,8 +36,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Technology Stack
 
-- Next.js 14
-- React
+- Next.js 15
+- React 19
 - TypeScript
 - Tailwind CSS
 
