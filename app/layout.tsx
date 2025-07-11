@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { IBM_Plex_Mono, VT323 } from "next/font/google";
 import "./globals.css";
 import StructuredData from "./structured-data";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -98,6 +99,7 @@ export default function RootLayout({
       >
         <StructuredData />
         {children}
+        <Analytics />
       </body>
     </html>
   );
