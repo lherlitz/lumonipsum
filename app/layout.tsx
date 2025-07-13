@@ -4,6 +4,7 @@ import { IBM_Plex_Mono, VT323 } from "next/font/google";
 import "./globals.css";
 import StructuredData from "./structured-data";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -100,6 +101,7 @@ export default function RootLayout({
         <StructuredData />
         {children}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
