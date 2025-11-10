@@ -1,8 +1,8 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to AI coding agents when working with code in this repository.
 
-## Development Commands
+## Setup commands
 
 ```bash
 # Development server
@@ -18,7 +18,7 @@ npm run start
 npm run lint
 ```
 
-## Project Architecture
+## Project overview
 
 This is a Next.js 15 application that generates Severance-themed Lorem Ipsum text. The application uses the App Router with TypeScript and Tailwind CSS.
 
@@ -32,6 +32,7 @@ This is a Next.js 15 application that generates Severance-themed Lorem Ipsum tex
 ### Text Generation Logic
 
 The `generateLumonIpsum` function in `utils/lumonIpsum.ts` creates paragraphs by:
+
 - Using a curated list of Lumon/Severance-specific phrases
 - Mixing these with common English words and Lumon-themed filler words
 - Generating 4-6 sentences per paragraph with 8-18 words per sentence
@@ -48,6 +49,7 @@ The `generateLumonIpsum` function in `utils/lumonIpsum.ts` creates paragraphs by
 ### State Management
 
 Simple React state management using useState hooks:
+
 - Paragraph count (1-10 range)
 - Generated text array
 - Copy status
