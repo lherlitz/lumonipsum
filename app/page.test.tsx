@@ -1,6 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Home from './page';
+import { generateLumonIpsum } from '@/lib/lumon-ipsum';
+import { useCursorAnimation } from '@/hooks/use-cursor-animation';
 
 // Mock the dependencies
 jest.mock('@/lib/lumon-ipsum', () => ({
@@ -14,8 +16,8 @@ jest.mock('@/hooks/use-cursor-animation', () => ({
 // Mock navigator.clipboard
 let mockWriteText: jest.SpyInstance;
 
-const mockGenerateLumonIpsum = require('@/lib/lumon-ipsum').generateLumonIpsum;
-const mockUseCursorAnimation = require('@/hooks/use-cursor-animation').useCursorAnimation;
+const mockGenerateLumonIpsum = jest.mocked(generateLumonIpsum);
+const mockUseCursorAnimation = jest.mocked(useCursorAnimation);
 
 describe('Home Page', () => {
   beforeAll(() => {
