@@ -41,6 +41,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - TypeScript
 - Tailwind CSS
 
+## Project Structure
+
+- `app/`: Next.js app directory with pages and layout
+- `lib/`: Core business logic including text generation
+- `ui/`: Reusable UI components
+- `features/`: Feature-specific components
+- `hooks/`: Custom React hooks
+- `types/`: TypeScript type definitions
+
 ## Security Guidelines
 
 When contributing to this project, please follow these security best practices:
