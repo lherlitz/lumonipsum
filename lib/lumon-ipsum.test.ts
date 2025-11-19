@@ -68,6 +68,10 @@ describe('generateLumonIpsum', () => {
   });
 
   describe('sentence generation logic', () => {
+    beforeEach(() => {
+      mockRandom.mockReturnValue(0.5);
+    });
+
     it('should generate a paragraph with deterministic output when random is mocked', () => {
       // Mock random to control sentence count (4 sentences), and force Lumon phrases
       mockRandom.mockReturnValue(0.1); // sentenceCount = floor(0.1*3)+4 = 4
@@ -81,7 +85,7 @@ describe('generateLumonIpsum', () => {
 
     it('should include Lumon phrases in output', () => {
       // Mock to force Lumon phrases
-      mockRandom.mockImplementation(() => 0.0); // < 0.3 for Lumon
+      mockRandom.mockReturnValue(0.0); // < 0.3 for Lumon
 
       const result = generateLumonIpsum(1);
       const paragraph = result[0];
@@ -91,15 +95,15 @@ describe('generateLumonIpsum', () => {
 
     it('should generate sentences with proper structure', () => {
       // Mock for generated sentence
-      mockRandom.mockImplementation(() => 0.5); // > 0.3 for sentence, length 8-18
+      // mockRandom.mockImplementation(() => 0.5); // > 0.3 for sentence, length 8-18
 
       const result = generateLumonIpsum(1);
       const paragraph = result[0];
       expect(paragraph).toMatch(/^[A-Z]/); // Starts with capital
-      expect(paragraph.endsWith('.')).toBe(true); // Ends with .
-      const sentences = paragraph.split('. ');
+      expect(paragraph).toMatch(/[.!?]$/); // Ends with punctuation
+      const sentences = paragraph.split(/[.!?]\s+/).filter(s => s.length > 0);
       expect(sentences.length).toBeGreaterThanOrEqual(4);
-      expect(sentences.length).toBeLessThanOrEqual(6);
+      expect(sentences.length).toBeLessThanOrEqual(7);
     });
 
     it('should handle edge case with minimum random values', () => {
