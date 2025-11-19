@@ -64,7 +64,11 @@ const generateParagraph = (): string => {
 
   for (let i = 0; i < sentenceCount; i++) {
     if (Math.random() < 0.3) { // 30% chance to include a Lumon phrase
-      sentences.push(lumonPhrases[Math.floor(Math.random() * lumonPhrases.length)]);
+      let phrase = lumonPhrases[Math.floor(Math.random() * lumonPhrases.length)];
+      if (!/[.!?]$/.test(phrase)) {
+        phrase += '.';
+      }
+      sentences.push(phrase);
     } else {
       sentences.push(generateSentence());
     }
