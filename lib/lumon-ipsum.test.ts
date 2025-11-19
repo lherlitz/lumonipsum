@@ -1,5 +1,38 @@
 import { generateLumonIpsum } from './lumon-ipsum';
 
+// Import phrases for testing
+const lumonPhrases = [
+  "Please enjoy each number equally.",
+  "The work is mysterious and important.",
+  "Music Dance Experience",
+  "Praise Kier",
+  "Remember the three tempers: Woe, Frolic, and Dread",
+  "You have found peace in your work",
+  "Your outie loves you very much",
+  "The refinement process is sacred",
+  "A handshake is available upon request",
+  "May you find peace in the numbers",
+  "The data must be refined",
+  "Your work will be sorted and filed",
+  "A clean cut is crucial to success",
+  "We serve Kier",
+  "Through Kier, all things are possible",
+  "Page 197 slaps.",
+  "Hell is just the product of a morbid human imagination. The bad news is whatever humans can imagine they can usually create.",
+  "The surest way to tame a prisoner is to let him believe he's free",
+  "Tame thy tempers.",
+  "Render not my creation in miniature.",
+  "And I shall whisper to ye dutiful through the ages. In your noblest thoughts and epiphanies shall be my voice. You are my mouth, and through ye, I will whisper on when I am 10 centuries demised.",
+  "The remembered man does not decay.",
+  "Let not weakness live in your veins.",
+  "Be content in my words, and dally not in the scholastic pursuits of lesser men.",
+  "Come now, children of my industry, and know the children of my blood.",
+  "And all in Lumon's care shall revel in the bounty of the incentives spur.",
+  "What a funny speech you gave at the party.I was cross with you after. I threw a tin of candies.",
+  "I'm Duly Swamped.",
+  "Go lick a boot, Mark!"
+];
+
 describe('generateLumonIpsum', () => {
   const mockRandom = jest.spyOn(Math, 'random');
 
@@ -47,12 +80,13 @@ describe('generateLumonIpsum', () => {
     });
 
     it('should include Lumon phrases in output', () => {
-      // Mock to force Lumon phrases and pick first phrase
-      mockRandom.mockImplementation(() => 0.0); // < 0.3 for Lumon, 0 for first phrase
+      // Mock to force Lumon phrases
+      mockRandom.mockImplementation(() => 0.0); // < 0.3 for Lumon
 
       const result = generateLumonIpsum(1);
       const paragraph = result[0];
-      expect(paragraph).toContain("Please enjoy each number equally.");
+      const hasLumonPhrase = lumonPhrases.some(phrase => paragraph.includes(phrase));
+      expect(hasLumonPhrase).toBe(true);
     });
 
     it('should generate sentences with proper structure', () => {

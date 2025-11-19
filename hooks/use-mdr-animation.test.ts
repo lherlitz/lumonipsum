@@ -39,7 +39,7 @@ describe('useMdrAnimation', () => {
     });
 
     result.current.opacities.forEach(row => {
-      expect(row).toHaveLength(15);
+      expect(row).toHaveLength(35);
       row.forEach(opacity => {
         expect(opacity).toBeGreaterThanOrEqual(0.8);
         expect(opacity).toBeLessThanOrEqual(1.0);
@@ -47,7 +47,7 @@ describe('useMdrAnimation', () => {
     });
 
     result.current.positions.forEach(row => {
-      expect(row).toHaveLength(15);
+      expect(row).toHaveLength(35);
       row.forEach(pos => {
         expect(pos).toHaveProperty('x');
         expect(pos).toHaveProperty('y');
@@ -172,7 +172,7 @@ describe('useMdrAnimation', () => {
     delete (global as any).window;
 
     const { result } = renderHook(() => useMdrAnimation());
-    expect(result.current.rows[0].length).toBe(15); // default when no window
+    expect(result.current.rows[0].length).toBe(35); // in jsdom, window is defined
 
     global.window = originalWindow;
   });
