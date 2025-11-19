@@ -25,13 +25,15 @@ This is a Next.js 15 application that generates Severance-themed Lorem Ipsum tex
 ### Key Components
 
 - **Main Page** (`app/page.tsx`): Client-side React component with state management for paragraph count, text generation, and clipboard functionality
-- **Text Generator** (`utils/lumonIpsum.ts`): Core logic that generates Severance-themed placeholder text by mixing Lumon phrases with common words
-- **MDR Numbers Component** (`app/components/MDRNumbers.tsx`): Animated component that displays shifting numbers with opacity and position effects when no text is generated
+- **Text Generator** (`lib/lumon-ipsum.ts`): Core logic that generates Severance-themed placeholder text by mixing Lumon phrases with common words
+- **MDR Numbers Component** (`features/mdr-numbers.tsx`): Animated component that displays shifting numbers with opacity and position effects when no text is generated
+- **UI Components** (`ui/`): Reusable UI components including Button (`ui/button.tsx`), Input (`ui/input.tsx`), TerminalScreen (`ui/terminal-screen.tsx`), and GeneratedText (`ui/generated-text.tsx`)
+- **Custom Hooks** (`hooks/`): React hooks for animations including cursor animation (`hooks/use-cursor-animation.ts`) and MDR animation (`hooks/use-mdr-animation.ts`)
 - **Layout** (`app/layout.tsx`): Root layout with multiple Google Fonts (Geist, IBM Plex Mono, VT323)
 
 ### Text Generation Logic
 
-The `generateLumonIpsum` function in `utils/lumonIpsum.ts` creates paragraphs by:
+The `generateLumonIpsum` function in `lib/lumon-ipsum.ts` creates paragraphs by:
 
 - Using a curated list of Lumon/Severance-specific phrases
 - Mixing these with common English words and Lumon-themed filler words
