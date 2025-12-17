@@ -13,6 +13,8 @@ export default function Home() {
   const [paragraphs, setParagraphs] = useState<number>(3);
   const [generatedText, setGeneratedText] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState(false);
+  const [inputError, setInputError] = useState<string>('');
   const showCursor = useCursorAnimation();
 
   const handleGenerate = (e: React.MouseEvent) => {
@@ -24,24 +26,35 @@ export default function Home() {
       setGeneratedText(text);
     }, 500);
     setCopied(false);
+    setCopyError(false);
+    setInputError('');
   };
 
   const incrementParagraphs = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setParagraphs(prev => Math.min(prev + 1, 10));
+    setInputError('');
   };
 
   const decrementParagraphs = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setParagraphs(prev => Math.max(prev - 1, 1));
+    setInputError('');
   };
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(generatedText.join('\n\n'));
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(generatedText.join('\n\n'));
+      setCopied(true);
+      setCopyError(false);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      console.warn('Failed to copy to clipboard:', error);
+      setCopyError(true);
+      setTimeout(() => setCopyError(false), 3000);
+    }
   };
 
   return (
@@ -65,8 +78,18 @@ export default function Home() {
               min="1"
               max="10"
               value={paragraphs}
-              onChange={(e) => setParagraphs(Number(e.target.value))}
-              className="mx-1"
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                setParagraphs(value);
+                if (isNaN(value) || value < 1 || value > 10) {
+                  setInputError('Please enter a number between 1 and 10');
+                } else {
+                  setInputError('');
+                }
+              }}
+              aria-invalid={!!inputError}
+              aria-describedby={inputError ? 'paragraphs-error' : undefined}
+              className={`mx-1 ${inputError ? 'border-red-400' : ''}`}
             />
             <Button
               variant="arrow"
@@ -85,6 +108,15 @@ export default function Home() {
               ▼
             </Button>
           </div>
+          {inputError && (
+            <p
+              id="paragraphs-error"
+              className="text-xs text-red-400 opacity-80 mt-1"
+              role="alert"
+            >
+              {inputError}
+            </p>
+          )}
 
           <div className="w-full flex justify-center mt-8">
             <Button
@@ -98,12 +130,20 @@ export default function Home() {
 
           {generatedText.length > 0 ? (
             <GeneratedText className="mb-12">
-              <Button
-                variant="copy"
-                onClick={handleCopy}
-              >
-                {copied ? 'COPIED' : 'COPY'}
-              </Button>
+              <div className="flex flex-col items-end gap-1">
+                {copyError && (
+                  <p className="text-xs text-red-400 opacity-80">
+                    COPY FAILED - MANUAL COPY REQUIRED
+                  </p>
+                )}
+                <Button
+                  variant="copy"
+                  onClick={handleCopy}
+                  disabled={copyError}
+                >
+                  {copied ? 'COPIED' : copyError ? 'ERROR' : 'COPY'}
+                </Button>
+              </div>
               <div className="space-y-4">
                 {generatedText.map((paragraph, index) => (
                   <p key={index} className="text-[#f3ffff]">{paragraph}</p>

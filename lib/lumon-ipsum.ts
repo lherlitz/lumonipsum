@@ -37,6 +37,11 @@ const fillerWords = [
   "woe", "frolic", "dread", "malice"
 ];
 
+const commonWords = [
+  "the", "be", "to", "of", "and", "a", "in", "that", "have", "for",
+  "not", "on", "with", "as", "you", "do", "at", "this", "but", "by"
+];
+
 const generateSentence = (): string => {
   const words = [];
   const length = Math.floor(Math.random() * 10) + 8; // 8-18 words
@@ -45,10 +50,6 @@ const generateSentence = (): string => {
     if (Math.random() < 0.15) { // 15% chance to use a filler word
       words.push(fillerWords[Math.floor(Math.random() * fillerWords.length)]);
     } else {
-      const commonWords = [
-        "the", "be", "to", "of", "and", "a", "in", "that", "have", "for",
-        "not", "on", "with", "as", "you", "do", "at", "this", "but", "by"
-      ];
       words.push(commonWords[Math.floor(Math.random() * commonWords.length)]);
     }
   }
