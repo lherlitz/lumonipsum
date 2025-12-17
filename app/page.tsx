@@ -141,7 +141,7 @@ export default function Home() {
                   onClick={handleCopy}
                   disabled={copyError}
                 >
-                  {copied ? 'COPIED' : copyError ? 'ERROR' : 'COPY'}
+                  {copyError ? 'ERROR' : copied ? 'COPIED' : 'COPY'}
                 </Button>
               </div>
               <div className="space-y-4">
