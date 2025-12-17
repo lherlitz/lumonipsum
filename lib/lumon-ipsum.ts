@@ -80,7 +80,8 @@ const generateParagraph = (): string => {
 
 export const generateLumonIpsum = (paragraphs: number): string[] => {
   const result: string[] = [];
-  const clampedParagraphs = Math.min(Math.max(paragraphs, 1), 10);
+  // Ensure paragraphs is an integer and clamp to valid range
+  const clampedParagraphs = Math.min(Math.max(Math.floor(paragraphs), 1), 10);
 
   for (let i = 0; i < clampedParagraphs; i++) {
     result.push(generateParagraph());

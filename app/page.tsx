@@ -97,10 +97,11 @@ export default function Home() {
               max="10"
               defaultValue={paragraphs}
               onChange={(e) => {
-                const value = Number(e.target.value);
+                const inputValue = e.target.value;
+                const value = Number(inputValue);
 
-                // Only update state for valid values to maintain invariants
-                if (!isNaN(value) && value >= 1 && value <= 10) {
+                // Validate and only update state for valid values to maintain invariants
+                if (!isNaN(value) && Number.isInteger(value) && value >= 1 && value <= 10) {
                   setParagraphs(value);
                   setInputError('');
                 } else {
