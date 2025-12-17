@@ -1,9 +1,13 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, forwardRef } from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-export function Input({ className = '', ...props }: InputProps) {
-  return (
-    <input className={`lumon-input ${className}`} {...props} />
-  );
-}
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ className = '', ...props }, ref) => {
+    return (
+      <input ref={ref} className={`lumon-input ${className}`} {...props} />
+    );
+  }
+);
+
+Input.displayName = 'Input';

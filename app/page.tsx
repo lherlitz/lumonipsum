@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { generateLumonIpsum } from '@/lib/lumon-ipsum';
 import { useCursorAnimation } from '@/hooks/use-cursor-animation';
 import MDRNumbers from '@/features/mdr-numbers';
@@ -16,6 +16,7 @@ export default function Home() {
   const [copyError, setCopyError] = useState(false);
   const [inputError, setInputError] = useState<string>('');
   const showCursor = useCursorAnimation();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleGenerate = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -28,19 +29,35 @@ export default function Home() {
     setCopied(false);
     setCopyError(false);
     setInputError('');
+    // Sync input value to current paragraphs value
+    if (inputRef.current) {
+      inputRef.current.value = paragraphs.toString();
+    }
   };
 
   const incrementParagraphs = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setParagraphs(prev => Math.min(prev + 1, 10));
+    setParagraphs(prev => {
+      const newValue = Math.min(prev + 1, 10);
+      if (inputRef.current) {
+        inputRef.current.value = newValue.toString();
+      }
+      return newValue;
+    });
     setInputError('');
   };
 
   const decrementParagraphs = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setParagraphs(prev => Math.max(prev - 1, 1));
+    setParagraphs(prev => {
+      const newValue = Math.max(prev - 1, 1);
+      if (inputRef.current) {
+        inputRef.current.value = newValue.toString();
+      }
+      return newValue;
+    });
     setInputError('');
   };
 
@@ -73,18 +90,21 @@ export default function Home() {
           <div className="w-full flex justify-center items-center text-sm mb-8">
             <span>PARAGRAPHS REQUESTED: </span>
             <Input
+              ref={inputRef}
               type="number"
               id="paragraphs"
               min="1"
               max="10"
-              value={paragraphs}
+              defaultValue={paragraphs}
               onChange={(e) => {
                 const value = Number(e.target.value);
-                setParagraphs(value);
-                if (isNaN(value) || value < 1 || value > 10) {
-                  setInputError('Please enter a number between 1 and 10');
-                } else {
+
+                // Only update state for valid values to maintain invariants
+                if (!isNaN(value) && value >= 1 && value <= 10) {
+                  setParagraphs(value);
                   setInputError('');
+                } else {
+                  setInputError('Please enter a number between 1 and 10');
                 }
               }}
               aria-invalid={!!inputError}
