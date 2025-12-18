@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { generateLumonIpsum } from '@/lib/lumon-ipsum';
 import { useCursorAnimation } from '@/hooks/use-cursor-animation';
 import MDRNumbers from '@/features/mdr-numbers';
@@ -13,7 +13,10 @@ export default function Home() {
   const [paragraphs, setParagraphs] = useState<number>(3);
   const [generatedText, setGeneratedText] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState(false);
+  const [inputError, setInputError] = useState<string>('');
   const showCursor = useCursorAnimation();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleGenerate = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -24,24 +27,51 @@ export default function Home() {
       setGeneratedText(text);
     }, 500);
     setCopied(false);
+    setCopyError(false);
+    setInputError('');
+    // Sync input value to current paragraphs value
+    if (inputRef.current) {
+      inputRef.current.value = paragraphs.toString();
+    }
   };
 
   const incrementParagraphs = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setParagraphs(prev => Math.min(prev + 1, 10));
+    setParagraphs(prev => {
+      const newValue = Math.min(prev + 1, 10);
+      if (inputRef.current) {
+        inputRef.current.value = newValue.toString();
+      }
+      return newValue;
+    });
+    setInputError('');
   };
 
   const decrementParagraphs = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setParagraphs(prev => Math.max(prev - 1, 1));
+    setParagraphs(prev => {
+      const newValue = Math.max(prev - 1, 1);
+      if (inputRef.current) {
+        inputRef.current.value = newValue.toString();
+      }
+      return newValue;
+    });
+    setInputError('');
   };
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(generatedText.join('\n\n'));
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(generatedText.join('\n\n'));
+      setCopied(true);
+      setCopyError(false);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      console.warn('Failed to copy to clipboard:', error);
+      setCopyError(true);
+      setTimeout(() => setCopyError(false), 3000);
+    }
   };
 
   return (
@@ -60,13 +90,27 @@ export default function Home() {
           <div className="w-full flex justify-center items-center text-sm mb-8">
             <span>PARAGRAPHS REQUESTED: </span>
             <Input
+              ref={inputRef}
               type="number"
               id="paragraphs"
               min="1"
               max="10"
-              value={paragraphs}
-              onChange={(e) => setParagraphs(Number(e.target.value))}
-              className="mx-1"
+              defaultValue={paragraphs}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                const value = Number(inputValue);
+
+                // Validate and only update state for valid values to maintain invariants
+                if (!isNaN(value) && Number.isInteger(value) && value >= 1 && value <= 10) {
+                  setParagraphs(value);
+                  setInputError('');
+                } else {
+                  setInputError('Please enter a number between 1 and 10');
+                }
+              }}
+              aria-invalid={!!inputError}
+              aria-describedby={inputError ? 'paragraphs-error' : undefined}
+              className={`mx-1 ${inputError ? 'border-red-400' : ''}`}
             />
             <Button
               variant="arrow"
@@ -85,6 +129,15 @@ export default function Home() {
               ▼
             </Button>
           </div>
+          {inputError && (
+            <p
+              id="paragraphs-error"
+              className="text-xs text-red-400 opacity-80 mt-1"
+              role="alert"
+            >
+              {inputError}
+            </p>
+          )}
 
           <div className="w-full flex justify-center mt-8">
             <Button
@@ -98,12 +151,20 @@ export default function Home() {
 
           {generatedText.length > 0 ? (
             <GeneratedText className="mb-12">
-              <Button
-                variant="copy"
-                onClick={handleCopy}
-              >
-                {copied ? 'COPIED' : 'COPY'}
-              </Button>
+              <div className="flex flex-col items-end gap-1">
+                {copyError && (
+                  <p className="text-xs text-red-400 opacity-80">
+                    COPY FAILED - MANUAL COPY REQUIRED
+                  </p>
+                )}
+                <Button
+                  variant="copy"
+                  onClick={handleCopy}
+                  disabled={copyError}
+                >
+                  {copyError ? 'ERROR' : copied ? 'COPIED' : 'COPY'}
+                </Button>
+              </div>
               <div className="space-y-4">
                 {generatedText.map((paragraph, index) => (
                   <p key={index} className="text-[#f3ffff]">{paragraph}</p>

@@ -22,15 +22,13 @@ export const useMdrAnimation = () => {
   useEffect(() => {
     const handleResize = () => {
       const newCharsPerRow = calculateColumns();
-      if (newCharsPerRow !== charsPerRow) {
-        setCharsPerRow(newCharsPerRow);
-      }
+      setCharsPerRow(newCharsPerRow);
     };
 
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [charsPerRow, calculateColumns]);
+  }, [calculateColumns]);
 
   const generateRandomRow = useCallback((length: number) => {
     let row = '';
