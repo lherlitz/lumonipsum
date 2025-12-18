@@ -29,7 +29,10 @@ This is a Next.js 15 application that generates Severance-themed Lorem Ipsum tex
 - **MDR Numbers Component** (`features/mdr-numbers.tsx`): Animated component that displays shifting numbers with opacity and position effects when no text is generated
 - **UI Components** (`ui/`): Reusable UI components including Button (`ui/button.tsx`), Input (`ui/input.tsx`), TerminalScreen (`ui/terminal-screen.tsx`), and GeneratedText (`ui/generated-text.tsx`)
 - **Custom Hooks** (`hooks/`): React hooks for animations including cursor animation (`hooks/use-cursor-animation.ts`) and MDR animation (`hooks/use-mdr-animation.ts`)
-- **Layout** (`app/layout.tsx`): Root layout with multiple Google Fonts (Geist, IBM Plex Mono, VT323)
+- **Layout** (`app/layout.tsx`): Root layout with multiple Google Fonts (Geist, Geist Mono, IBM Plex Mono, VT323)
+- **SEO/Metadata Files**: `app/robots.ts`, `app/sitemap.ts`, `app/structured-data.tsx` for search engine optimization and metadata
+- **App Icon** (`app/icon.svg`): SVG icon for the application
+- **Tests** (`app/page.test.tsx`): Unit tests for the main page component
 
 ### Text Generation Logic
 
@@ -63,7 +66,7 @@ Simple React state management using useState hooks:
 - React 19
 - TypeScript (strict mode enabled)
 - Tailwind CSS
-- Google Fonts: Geist, IBM Plex Mono, VT323
+- Google Fonts: Geist, Geist Mono, IBM Plex Mono, VT323
 
 ## Path Aliases
 
