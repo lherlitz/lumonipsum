@@ -27,14 +27,25 @@ const lumonPhrases = [
   "And all in Lumon's care shall revel in the bounty of the incentives spur.",
   "What a funny speech you gave at the party.I was cross with you after. I threw a tin of candies.",
   "I'm Duly Swamped.",
-  "Go lick a boot, Mark!"
+  "Go lick a boot, Mark!",
+  "It's important because it actually is or because you're saying it is?",
+  "Let's burn this place to the ground.",
+  "The Music Dance Experience is officially cancelled.",
+  "Every time you find yourself here, it's because you chose to come back.",
+  "We must be cut to heal.",
+  "If you want a hug, go to hell and find your mother.",
+  "I am sorry, Mark. I am not a person.",
+  "You are not your job. You are not how much money you have in the bank."
 ];
 
 const fillerWords = [
   "data", "numbers", "work", "refinement", "procedure", "protocol",
   "department", "wellness", "severance", "corporate", "efficiency",
   "compliance", "standard", "process", "directive", "goat", "egg",
-  "woe", "frolic", "dread", "malice"
+  "woe", "frolic", "dread", "malice",
+  "incentive", "contingency", "perpetuity", "algorithm", "metadata",
+  "anomaly", "innie", "outie", "temper", "harmony", "enigma",
+  "corridor", "facility", "division", "wing", "discord", "resonance", "fragment"
 ];
 
 const commonWords = [
