@@ -34,6 +34,28 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Testing
+
+Run the test suite:
+
+```bash
+npm run test
+# or
+yarn test
+# or
+pnpm test
+```
+
+Run tests in watch mode:
+
+```bash
+npm run test:watch
+# or
+yarn test:watch
+# or
+pnpm test:watch
+```
+
 ## Technology Stack
 
 - Next.js 15
@@ -43,8 +65,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Project Structure
 
-- `app/`: Next.js app directory with pages and layout
+- `app/`: Next.js app directory with pages, layout, and SEO files
 - `lib/`: Core business logic including text generation
+- `utils/`: Utility functions including additional text generation logic
 - `ui/`: Reusable UI components
 - `features/`: Feature-specific components
 - `hooks/`: Custom React hooks
