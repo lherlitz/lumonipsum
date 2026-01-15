@@ -1,0 +1,1 @@
+All instructions in @AGENTS.md should be followed
