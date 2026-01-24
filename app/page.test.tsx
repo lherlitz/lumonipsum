@@ -198,4 +198,53 @@ describe('Home Page', () => {
       expect(screen.queryByText('Mock paragraph 1')).not.toBeInTheDocument();
     });
   });
+
+  it('handles clipboard error gracefully', async () => {
+    const user = userEvent.setup();
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+    // Mock clipboard to reject
+    const originalClipboard = navigator.clipboard;
+    Object.defineProperty(navigator, 'clipboard', {
+      value: {
+        writeText: jest.fn().mockRejectedValue(new Error('Clipboard access denied')),
+      },
+      writable: true,
+      configurable: true,
+    });
+
+    render(<Home />);
+
+    // Generate text first
+    const generateButton = screen.getByRole('button', { name: /generate text/i });
+    await user.click(generateButton);
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /copy/i })).toBeInTheDocument();
+    });
+
+    // Try to copy - should fail
+    const copyButton = screen.getByRole('button', { name: /copy/i });
+    await user.click(copyButton);
+
+    // Should show error state
+    await waitFor(() => {
+      expect(screen.getByText('COPY FAILED - MANUAL COPY REQUIRED')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /error/i })).toBeInTheDocument();
+    });
+
+    // Verify console.warn was called
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      'Failed to copy to clipboard:',
+      expect.any(Error)
+    );
+
+    // Restore
+    Object.defineProperty(navigator, 'clipboard', {
+      value: originalClipboard,
+      writable: true,
+      configurable: true,
+    });
+    consoleWarnSpy.mockRestore();
+  });
 });

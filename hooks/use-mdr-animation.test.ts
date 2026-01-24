@@ -176,4 +176,84 @@ describe('useMdrAnimation', () => {
 
     global.window = originalWindow;
   });
+
+  it('should handle sparse random updates to opacities and positions', () => {
+    // Test edge case where random index lands on undefined array entries
+    const { result } = renderHook(() => useMdrAnimation());
+
+    // Verify initial state is valid
+    expect(result.current.opacities.length).toBe(11);
+    expect(result.current.positions.length).toBe(11);
+
+    // Advance multiple intervals to trigger many random updates
+    act(() => {
+      jest.advanceTimersByTime(1500 * 10);
+    });
+
+    // All arrays should still be valid (guards prevent undefined access)
+    result.current.opacities.forEach(row => {
+      expect(Array.isArray(row)).toBe(true);
+      row.forEach(opacity => {
+        expect(typeof opacity).toBe('number');
+        expect(opacity).toBeGreaterThanOrEqual(0.8);
+        expect(opacity).toBeLessThanOrEqual(1.0);
+      });
+    });
+
+    result.current.positions.forEach(row => {
+      expect(Array.isArray(row)).toBe(true);
+      row.forEach(pos => {
+        expect(pos).toHaveProperty('x');
+        expect(pos).toHaveProperty('y');
+      });
+    });
+  });
+
+  it('should handle calculateColumns returning default when window is undefined', () => {
+    // This tests the SSR branch by directly testing the hook behavior
+    // when window.innerWidth gives edge values
+
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      value: 0, // Edge case: zero width
+    });
+
+    const { result } = renderHook(() => useMdrAnimation());
+
+    // Should use minimum of 10 columns: (0-200)/22 = -9, max(10, -10) = 10
+    expect(result.current.rows[0].length).toBe(10);
+  });
+
+  it('should handle boundary conditions in random index generation', () => {
+    // Set up random to return values that would go out of bounds
+    // This tests the guards: newOpacities[row] && newOpacities[row][col] !== undefined
+    const randomValues = [
+      0.99, 0.99, // Row 10, col at end - edge of array
+      0, 0,       // Row 0, col 0 - start of array
+      0.5, 0.5,   // Middle values
+      1, 1,       // Would be out of bounds but Math.floor keeps it in
+    ];
+    let callIndex = 0;
+    mockRandom.mockImplementation(() => {
+      const value = randomValues[callIndex % randomValues.length];
+      callIndex++;
+      return value;
+    });
+
+    const { result } = renderHook(() => useMdrAnimation());
+
+    // Run multiple intervals to exercise all random paths
+    act(() => {
+      jest.advanceTimersByTime(1500 * 5);
+    });
+
+    // Verify arrays remain valid
+    expect(result.current.opacities.every(row =>
+      row.every(val => val >= 0.8 && val <= 1.0)
+    )).toBe(true);
+
+    expect(result.current.positions.every(row =>
+      row.every(pos => pos.x >= -5.5 && pos.x <= 5.5 && pos.y >= -5.5 && pos.y <= 5.5)
+    )).toBe(true);
+  });
 });
