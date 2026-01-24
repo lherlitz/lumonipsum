@@ -1,10 +1,12 @@
 import Script from 'next/script';
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.lumonipsum.com';
+
 interface StructuredDataProps {
   url?: string;
 }
 
-export default function StructuredData({ url = 'https://www.lumonipsum.com' }: StructuredDataProps) {
+export default function StructuredData({ url = siteUrl }: StructuredDataProps) {
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',

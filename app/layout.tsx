@@ -28,6 +28,8 @@ const vt323 = VT323({
   variable: "--font-vt323",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.lumonipsum.com';
+
 export const metadata: Metadata = {
   title: "Lumon Ipsum Generator | Severance-themed Lorem Ipsum Text",
   description: "Generate Severance-themed placeholder text for your design projects. Corporate-approved Lorem Ipsum with Lumon Industries flavor. Please enjoy all paragraphs equally.",
@@ -40,14 +42,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://www.lumonipsum.com'),
+  metadataBase: new URL(siteUrl),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: "Lumon Ipsum Generator | Severance-themed Lorem Ipsum",
     description: "Generate Severance-themed placeholder text for your design projects. Corporate-approved Lorem Ipsum with Lumon Industries flavor.",
-    url: 'https://www.lumonipsum.com',
+    url: siteUrl,
     siteName: 'Lumon Ipsum Generator',
     locale: 'en_US',
     type: 'website',

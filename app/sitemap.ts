@@ -1,15 +1,17 @@
 import { MetadataRoute } from 'next'
- 
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.lumonipsum.com';
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'https://www.lumonipsum.com',
+      url: siteUrl,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 1,
     },
     {
-      url: 'https://www.lumonipsum.com/#generator',
+      url: `${siteUrl}/#generator`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
