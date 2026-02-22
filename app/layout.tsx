@@ -55,9 +55,9 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/lumon-globe.svg',
-        width: 800,
-        height: 600,
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
         alt: 'Lumon Ipsum Generator - Severance themed Lorem Ipsum',
       },
     ],
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Lumon Ipsum Generator | Severance-themed Lorem Ipsum",
     description: "Generate Severance-themed placeholder text for your design projects. Corporate-approved Lorem Ipsum with Lumon Industries flavor.",
-    images: ['/lumon-globe.svg'],
+    images: ['/og-image.png'],
     creator: '@lumonipsum',
   },
   robots: {

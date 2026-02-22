@@ -49,12 +49,12 @@ export default function StructuredData({ url = siteUrl }: StructuredDataProps) {
       'Lumon Industries branded content',
       'Responsive design for all devices',
     ],
-    screenshot: `${url}/lumon-globe.svg`,
+    screenshot: `${url}/screenshot.png`,
     author: {
       '@type': 'Organization',
       name: 'Lumon Industries',
     },
-    datePublished: '2024-01-01',
+    datePublished: '2025-03-19',
     version: '1.0.0',
     inLanguage: 'en-US',
   };
