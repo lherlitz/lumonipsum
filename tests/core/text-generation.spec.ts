@@ -85,8 +85,13 @@ test.describe('Core Functionality', () => {
   test('Copy Generated Text', async ({ page }) => {
     await page.goto('http://localhost:3000');
     
-    // Grant clipboard permissions
-    await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+    // Grant clipboard permissions (gracefully handle browsers that don't support this)
+    try {
+      await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+    } catch {
+      // Some browsers don't support clipboard permissions in test context
+      // Test will still verify the error handling behavior
+    }
     
     // Generate text
     const generateButton = page.locator('button').filter({ hasText: 'INITIATE' }).first();
