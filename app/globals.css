@@ -192,8 +192,19 @@ p {
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 10;
+  border-radius: 4px;
 }
 
 .copy-button:hover {
   background-color: var(--clarity);
+}
+
+.copy-button:focus-visible {
+  outline: 2px solid var(--clarity);
+  outline-offset: 2px;
+}
+
+.copy-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
