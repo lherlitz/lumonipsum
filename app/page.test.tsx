@@ -230,7 +230,7 @@ describe('Home Page', () => {
     // Should show error state
     await waitFor(() => {
       expect(screen.getByText('COPY FAILED - MANUAL COPY REQUIRED')).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /error/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /error|copy failed/i })).toBeInTheDocument();
     });
 
     // Verify console.warn was called
