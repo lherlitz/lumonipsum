@@ -132,7 +132,7 @@ export default function Home() {
           {inputError && (
             <p
               id="paragraphs-error"
-              className="text-xs text-red-400 opacity-80 mt-1"
+              className="text-xs text-red-400 mt-1"
               role="alert"
             >
               {inputError}
