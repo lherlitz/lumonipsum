@@ -132,7 +132,7 @@ export default function Home() {
           {inputError && (
             <p
               id="paragraphs-error"
-              className="text-xs text-red-400 opacity-80 mt-1"
+              className="text-xs text-red-400 mt-1"
               role="alert"
             >
               {inputError}
@@ -153,7 +153,7 @@ export default function Home() {
             <GeneratedText className="mb-12">
               <div className="flex flex-col items-end gap-1">
                 {copyError && (
-                  <p className="text-xs text-red-400 opacity-80">
+                  <p className="text-xs text-red-400">
                     COPY FAILED - MANUAL COPY REQUIRED
                   </p>
                 )}
