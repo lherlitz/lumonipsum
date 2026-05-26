@@ -5,15 +5,22 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
-  reporter: 'html',
+  workers: process.env.CI ? 4 : undefined,
+  reporter: process.env.CI ? 'dot' : 'html',
   use: {
     baseURL: 'http://localhost:3000',
-    trace: 'on-first-retry',
+    trace: process.env.CI ? 'on-first-retry' : 'on',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
-  projects: [
+  projects: process.env.CI
+    ? [
+        {
+          name: 'chromium',
+          use: { ...devices['Desktop Chrome'] },
+        },
+      ]
+    : [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
