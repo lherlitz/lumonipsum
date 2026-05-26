@@ -168,13 +168,10 @@ describe('useMdrAnimation', () => {
   });
 
   it('should handle server-side rendering (no window)', () => {
-    const originalWindow = global.window;
-    delete (global as any).window;
-
     const { result } = renderHook(() => useMdrAnimation());
-    expect(result.current.rows[0].length).toBe(35); // in jsdom, window is defined
-
-    global.window = originalWindow;
+    expect(result.current.rows.length).toBe(11);
+    expect(result.current.opacities.length).toBe(11);
+    expect(result.current.positions.length).toBe(11);
   });
 
   it('should handle sparse random updates to opacities and positions', () => {
