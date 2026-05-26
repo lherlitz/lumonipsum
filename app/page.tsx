@@ -153,7 +153,7 @@ export default function Home() {
             <GeneratedText className="mb-12">
               <div className="flex flex-col items-end gap-1">
                 {copyError && (
-                  <p className="text-xs text-red-400 opacity-80">
+                  <p className="text-xs text-red-400 opacity-80" role="alert">
                     COPY FAILED - MANUAL COPY REQUIRED
                   </p>
                 )}
@@ -161,6 +161,14 @@ export default function Home() {
                   variant="copy"
                   onClick={handleCopy}
                   disabled={copyError}
+                  aria-label={
+                    copyError
+                      ? 'Copy failed'
+                      : copied
+                        ? 'Text copied to clipboard'
+                        : 'Copy generated text to clipboard'
+                  }
+                  aria-live="polite"
                 >
                   {copyError ? 'ERROR' : copied ? 'COPIED' : 'COPY'}
                 </Button>
