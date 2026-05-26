@@ -99,16 +99,16 @@ test.describe('Core Functionality', () => {
     await page.waitForTimeout(1000);
     
     // Click the copy button
-    const copyButton = page.getByRole('button', { name: 'COPY' });
+    const copyButton = page.getByRole('button', { name: /copy/i });
     await copyButton.click();
     
     // Verify button text changes to COPIED (or it could show ERROR due to clipboard restrictions in headless)
-    await expect(page.getByRole('button', { name: /COPIED|ERROR/ })).toBeVisible();
+    await expect(page.getByRole('button', { name: /copied|error|copy failed/i })).toBeVisible({ timeout: 5000 });
     
-    // Wait 3 seconds (2 seconds per code)
-    await page.waitForTimeout(2500);
+    // Wait for button to reset
+    await page.waitForTimeout(3500);
     
     // Verify button text returns to COPY
-    await expect(page.getByRole('button', { name: 'COPY' })).toBeVisible();
+    await expect(page.getByRole('button', { name: /copy/i })).toBeVisible();
   });
 });

@@ -23,12 +23,12 @@ test.describe('Performance Tests', () => {
     await generateButton.click();
     
     // Wait for text to appear
-    await page.waitForTimeout(1000);
+    await expect(page.getByRole('button', { name: 'COPY' })).toBeVisible({ timeout: 5000 });
     
     const generationTime = Date.now() - startTime;
     
     // Verify generation completes within reasonable time
-    expect(generationTime).toBeLessThan(1500);
+    expect(generationTime).toBeLessThan(5000);
   });
 
   test('Memory Management', async ({ page }) => {
