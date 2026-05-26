@@ -1,6 +1,6 @@
 import Script from 'next/script';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.lumonipsum.com';
+const siteUrl = process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
 interface StructuredDataProps {
   url?: string;
