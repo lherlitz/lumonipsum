@@ -6,7 +6,7 @@ test.describe('Visual Tests', () => {
     
     // Verify dark background
     const mainElement = page.locator('main');
-    await expect(mainElement).toHaveClass(/bg-\[#0e1a26\]/);
+    await expect(mainElement).toHaveClass(/bg-\[var\(--archive\)\]/);
     
     // Verify terminal screen is present
     await expect(page.locator('[class*="terminal"]')).toBeVisible().catch(() => {
