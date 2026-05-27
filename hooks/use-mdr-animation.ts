@@ -1,11 +1,7 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import type { Position } from '@/types';
 
 export const useMdrAnimation = () => {
-  const [rows, setRows] = useState<string[]>([]);
-  const [opacities, setOpacities] = useState<number[][]>([]);
-  const [positions, setPositions] = useState<Position[][]>([]);
-  const [charsPerRow, setCharsPerRow] = useState(15);
   const numRows = 11;
   const maxOffset = 5.5;
   const updateInterval = 1500;
@@ -19,6 +15,57 @@ export const useMdrAnimation = () => {
     return Math.max(10, Math.min(35, columns - 1));
   }, []);
 
+  const [charsPerRow, setCharsPerRow] = useState(15);
+
+  const generateRandomRow = useCallback((length: number) => {
+    let row = '';
+    for (let i = 0; i < length; i++) {
+      row += Math.floor(Math.random() * 10).toString();
+    }
+    return row;
+  }, []);
+
+  const initialRows = useMemo(
+    () => Array(numRows).fill(0).map(() => generateRandomRow(charsPerRow)),
+    [charsPerRow, generateRandomRow]
+  );
+  const initialOpacities = useMemo(
+    () => Array(numRows).fill(0).map(() =>
+      Array(charsPerRow).fill(0).map(() => Math.random() * 0.2 + 0.8)
+    ),
+    [charsPerRow]
+  );
+  const initialPositions = useMemo(
+    () => Array(numRows).fill(0).map(() =>
+      Array(charsPerRow).fill(0).map(() => ({
+        x: (Math.random() * 2 - 1) * maxOffset,
+        y: (Math.random() * 2 - 1) * maxOffset
+      }))
+    ),
+    [charsPerRow]
+  );
+
+  const [rows, setRows] = useState<string[]>(initialRows);
+  const [opacities, setOpacities] = useState<number[][]>(initialOpacities);
+  const [positions, setPositions] = useState<Position[][]>(initialPositions);
+  const prevCharsPerRow = useRef(charsPerRow);
+
+  useEffect(() => {
+    if (prevCharsPerRow.current !== charsPerRow) {
+      prevCharsPerRow.current = charsPerRow;
+      setRows(Array(numRows).fill(0).map(() => generateRandomRow(charsPerRow)));
+      setOpacities(Array(numRows).fill(0).map(() =>
+        Array(charsPerRow).fill(0).map(() => Math.random() * 0.2 + 0.8)
+      ));
+      setPositions(Array(numRows).fill(0).map(() =>
+        Array(charsPerRow).fill(0).map(() => ({
+          x: (Math.random() * 2 - 1) * maxOffset,
+          y: (Math.random() * 2 - 1) * maxOffset
+        }))
+      ));
+    }
+  }, [charsPerRow, generateRandomRow]);
+
   useEffect(() => {
     const handleResize = () => {
       const newCharsPerRow = calculateColumns();
@@ -30,34 +77,7 @@ export const useMdrAnimation = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, [calculateColumns]);
 
-  const generateRandomRow = useCallback((length: number) => {
-    let row = '';
-    for (let i = 0; i < length; i++) {
-      row += Math.floor(Math.random() * 10).toString();
-    }
-    return row;
-  }, []);
-
   useEffect(() => {
-    const generateInitialOpacities = () => {
-      return Array(numRows).fill(0).map(() =>
-        Array(charsPerRow).fill(0).map(() => Math.random() * 0.2 + 0.8)
-      );
-    };
-
-    const generateInitialPositions = () => {
-      return Array(numRows).fill(0).map(() =>
-        Array(charsPerRow).fill(0).map(() => ({
-          x: (Math.random() * 2 - 1) * maxOffset,
-          y: (Math.random() * 2 - 1) * maxOffset
-        }))
-      );
-    };
-
-    setRows(Array(numRows).fill(0).map(() => generateRandomRow(charsPerRow)));
-    setOpacities(generateInitialOpacities());
-    setPositions(generateInitialPositions());
-
     const interval = setInterval(() => {
       setOpacities(prev => {
         const newOpacities = [...prev];
@@ -88,7 +108,7 @@ export const useMdrAnimation = () => {
     }, updateInterval);
 
     return () => clearInterval(interval);
-  }, [charsPerRow, generateRandomRow]);
+  }, [charsPerRow]);
 
   return { rows, opacities, positions };
 };
