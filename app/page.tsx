@@ -1,13 +1,15 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { generateLumonIpsum } from '@/lib/lumon-ipsum';
 import { useCursorAnimation } from '@/hooks/use-cursor-animation';
-import MDRNumbers from '@/features/mdr-numbers';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
 import { TerminalScreen } from '@/ui/terminal-screen';
 import { GeneratedText } from '@/ui/generated-text';
+
+const MDRNumbers = dynamic(() => import('@/features/mdr-numbers'), { ssr: false });
 
 export default function Home() {
   const [paragraphs, setParagraphs] = useState<number>(3);
@@ -18,59 +20,88 @@ export default function Home() {
   const showCursor = useCursorAnimation();
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const validate = (raw: string) => {
+    if (raw === '') {
+      setInputError('');
+      return true;
+    }
+    const value = Number(raw);
+    if (Number.isInteger(value) && value >= 1 && value <= 10) {
+      setParagraphs(value);
+      setInputError('');
+      return true;
+    }
+    setInputError('Please enter a number between 1 and 10');
+    return false;
+  };
+
+  const syncInput = (next: number) => {
+    setParagraphs(next);
+    setInputError('');
+    if (inputRef.current) {
+      inputRef.current.value = next.toString();
+    }
+  };
+
+  const getCurrentValue = (): number => {
+    const raw = inputRef.current?.value || '';
+    if (raw === '') return paragraphs;
+    const value = Number(raw);
+    return Number.isInteger(value) && value >= 1 && value <= 10 ? value : paragraphs;
+  };
+
   const handleGenerate = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    const count = getCurrentValue();
+    if (count !== paragraphs) {
+      setParagraphs(count);
+    }
+
     setGeneratedText([]);
-    setTimeout(() => {
-      const text = generateLumonIpsum(paragraphs);
-      setGeneratedText(text);
-    }, 500);
+    const text = generateLumonIpsum(count);
+    setGeneratedText(text);
     setCopied(false);
     setCopyError(false);
-    setInputError('');
-    // Sync input value to current paragraphs value
-    if (inputRef.current) {
-      inputRef.current.value = paragraphs.toString();
-    }
   };
 
   const incrementParagraphs = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setParagraphs(prev => {
-      const newValue = Math.min(prev + 1, 10);
-      if (inputRef.current) {
-        inputRef.current.value = newValue.toString();
-      }
-      return newValue;
-    });
-    setInputError('');
+    syncInput(Math.min(paragraphs + 1, 10));
   };
 
   const decrementParagraphs = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setParagraphs(prev => {
-      const newValue = Math.max(prev - 1, 1);
-      if (inputRef.current) {
-        inputRef.current.value = newValue.toString();
-      }
-      return newValue;
-    });
-    setInputError('');
+    syncInput(Math.max(paragraphs - 1, 1));
   };
 
   const handleCopy = async () => {
+    const text = generatedText.join('\n\n');
     try {
-      await navigator.clipboard.writeText(generatedText.join('\n\n'));
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        // Fallback for non-HTTPS contexts where navigator.clipboard is unavailable
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        const success = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        if (!success) throw new Error('execCommand copy failed');
+      }
       setCopied(true);
       setCopyError(false);
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       console.warn('Failed to copy to clipboard:', error);
       setCopyError(true);
-      setTimeout(() => setCopyError(false), 3000);
+      setTimeout(() => setCopyError(false), 1500);
     }
   };
 
@@ -91,23 +122,11 @@ export default function Home() {
             <span>PARAGRAPHS REQUESTED: </span>
             <Input
               ref={inputRef}
-              type="number"
+              type="text"
+              inputMode="numeric"
               id="paragraphs"
-              min="1"
-              max="10"
-              defaultValue={paragraphs}
-              onChange={(e) => {
-                const inputValue = e.target.value;
-                const value = Number(inputValue);
-
-                // Validate and only update state for valid values to maintain invariants
-                if (!isNaN(value) && Number.isInteger(value) && value >= 1 && value <= 10) {
-                  setParagraphs(value);
-                  setInputError('');
-                } else {
-                  setInputError('Please enter a number between 1 and 10');
-                }
-              }}
+              defaultValue="3"
+              onChange={(e) => validate(e.target.value)}
               aria-invalid={!!inputError}
               aria-describedby={inputError ? 'paragraphs-error' : undefined}
               className={`mx-1 ${inputError ? 'border-red-400' : ''}`}
@@ -154,7 +173,7 @@ export default function Home() {
               <div className="flex flex-col items-end gap-1">
                 {copyError && (
                   <p className="text-xs text-red-400 opacity-80" role="alert">
-                    COPY FAILED - MANUAL COPY REQUIRED
+                    Copy failed. Please select the text and press Ctrl+C / Cmd+C.
                   </p>
                 )}
                 <Button

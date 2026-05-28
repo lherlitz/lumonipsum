@@ -89,7 +89,11 @@ const generateParagraph = (): string => {
   return sentences.join(" ");
 };
 
+// This function is non-deterministic due to Math.random() calls.
+// It must only be called client-side to avoid SSR hydration mismatches.
 export const generateLumonIpsum = (paragraphs: number): string[] => {
+  // NOTE: This function is non-deterministic (uses Math.random).
+  // It must only be called client-side to avoid SSR hydration mismatches.
   const result: string[] = [];
   // Ensure paragraphs is an integer and clamp to valid range
   const clampedParagraphs = Math.min(Math.max(Math.floor(paragraphs), 1), 10);
