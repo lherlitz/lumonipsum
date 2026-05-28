@@ -1,6 +1,6 @@
 import Script from 'next/script';
 import { siteUrl } from '@/lib/config';
-import type { StructuredDataProps } from '@/types';
+import { StructuredDataProps } from '@/types';
 
 export default function StructuredData({ url = siteUrl }: StructuredDataProps) {
   const websiteSchema = {
