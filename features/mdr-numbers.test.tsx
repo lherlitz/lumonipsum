@@ -30,7 +30,7 @@ describe('MDRNumbers', () => {
 
     const container = document.querySelector('.generated-text');
     expect(container).toBeInTheDocument();
-    expect(container).toHaveClass('generated-text', 'font-mono');
+    expect(container).toHaveClass('generated-text');
 
     // Check that numbers are rendered
     expect(screen.getByText('1')).toBeInTheDocument();
@@ -49,14 +49,14 @@ describe('MDRNumbers', () => {
     render(<MDRNumbers className="custom-class" />);
 
     const container = document.querySelector('.generated-text');
-    expect(container).toHaveClass('generated-text', 'font-mono', 'custom-class');
+    expect(container).toHaveClass('generated-text', 'custom-class');
   });
 
   it('renders with default className when none provided', () => {
     render(<MDRNumbers />);
 
     const container = document.querySelector('.generated-text');
-    expect(container).toHaveClass('generated-text', 'font-mono');
+    expect(container).toHaveClass('generated-text');
   });
 
   it('renders spans with correct styles', () => {

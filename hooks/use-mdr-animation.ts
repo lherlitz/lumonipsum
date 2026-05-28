@@ -1,3 +1,7 @@
+/**
+ * useMdrAnimation hook
+ * Manages the MDR numbers animation state including rows, opacities, and positions.
+ */
 import { useEffect, useReducer } from 'react';
 import type { Position } from '@/types';
 
@@ -156,11 +160,10 @@ export const useMdrAnimation = () => {
   );
 
   useEffect(() => {
-    /* eslint-disable react-hooks/set-state-in-effect -- client-only initialization:
+    /* client-only initialization:
        random values cannot be computed during SSR (hydration mismatch),
        and column count depends on window.innerWidth (not available server-side) */
     dispatch({ type: 'init', charsPerRow: calculateColumns() });
-    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   useEffect(() => {
