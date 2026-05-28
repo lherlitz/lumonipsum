@@ -139,7 +139,7 @@ const reducer = (state: State, action: Action): State => {
       if (action.charsPerRow === state.charsPerRow) {
         return { ...state, initialized: true };
       }
-      return { ...createInitialState(action.charsPerRow), initialized: true };
+      return { ...resizeState(state, action.charsPerRow), initialized: true };
     }
     case 'tick':
       return applyTick(state);

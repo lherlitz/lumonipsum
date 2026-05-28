@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Home from './page';
 import { generateLumonIpsum } from '@/lib/lumon-ipsum';
@@ -45,14 +45,12 @@ describe('Home Page', () => {
   });
 
   it('updates paragraph count via input', async () => {
-    const user = userEvent.setup();
     render(<Home />);
 
     const input = screen.getByDisplayValue('3');
-    await user.clear(input);
-    await user.type(input, '5');
+    fireEvent.change(input, { target: { value: '5' } });
 
-    expect(input).toHaveValue(5);
+    expect(input).toHaveValue('5');
   });
 
   it('increments paragraph count with arrow button', async () => {
@@ -63,7 +61,7 @@ describe('Home Page', () => {
     await user.click(incrementButton);
 
     const input = screen.getByDisplayValue('4');
-    expect(input).toHaveValue(4);
+    expect(input).toHaveValue('4');
   });
 
   it('decrements paragraph count with arrow button', async () => {
@@ -74,7 +72,7 @@ describe('Home Page', () => {
     await user.click(decrementButton);
 
     const input = screen.getByDisplayValue('2');
-    expect(input).toHaveValue(2);
+    expect(input).toHaveValue('2');
   });
 
   it('respects minimum paragraph count of 1', async () => {
@@ -86,7 +84,7 @@ describe('Home Page', () => {
     await user.click(decrementButton); // Try to go below 1
 
     const input = screen.getByDisplayValue('1');
-    expect(input).toHaveValue(1);
+    expect(input).toHaveValue('1');
   });
 
   it('respects maximum paragraph count of 10', async () => {
@@ -99,7 +97,7 @@ describe('Home Page', () => {
     }
 
     const input = screen.getByDisplayValue('10');
-    expect(input).toHaveValue(10);
+    expect(input).toHaveValue('10');
   });
 
   it('generates text on button click', async () => {
@@ -109,10 +107,7 @@ describe('Home Page', () => {
     const generateButton = screen.getByRole('button', { name: /generate text/i });
     await user.click(generateButton);
 
-    // Wait for the setTimeout
-    await waitFor(() => {
-      expect(mockGenerateLumonIpsum).toHaveBeenCalledWith(3);
-    });
+    expect(mockGenerateLumonIpsum).toHaveBeenCalledWith(3);
 
     // Check that generated text is displayed
     await waitFor(() => {
@@ -199,7 +194,7 @@ describe('Home Page', () => {
     });
   });
 
-  it('handles clipboard error gracefully', async () => {
+  it('handles clipboard error gracefully when navigator.clipboard rejects', async () => {
     const user = userEvent.setup();
     const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
@@ -229,8 +224,8 @@ describe('Home Page', () => {
 
     // Should show error state
     await waitFor(() => {
-      expect(screen.getByText('COPY FAILED - MANUAL COPY REQUIRED')).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /error|copy failed/i })).toBeInTheDocument();
+      expect(screen.getByText('Copy failed. Please select the text and press Ctrl+C / Cmd+C.')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /copy failed/i })).toBeInTheDocument();
     });
 
     // Verify console.warn was called
@@ -246,5 +241,52 @@ describe('Home Page', () => {
       configurable: true,
     });
     consoleWarnSpy.mockRestore();
+  });
+
+  it('falls back to document.execCommand when navigator.clipboard is unavailable', async () => {
+    const user = userEvent.setup();
+
+    // Remove clipboard API entirely
+    const originalClipboard = (navigator as any).clipboard;
+    Object.defineProperty(navigator, 'clipboard', {
+      value: undefined,
+      writable: true,
+      configurable: true,
+    });
+
+    const originalExecCommand = (document as any).execCommand;
+    const execCommandMock = jest.fn().mockReturnValue(true);
+    Object.defineProperty(document, 'execCommand', {
+      value: execCommandMock,
+      writable: true,
+      configurable: true,
+    });
+
+    render(<Home />);
+
+    const generateButton = screen.getByRole('button', { name: /generate text/i });
+    await user.click(generateButton);
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /copy/i })).toBeInTheDocument();
+    });
+
+    const copyButton = screen.getByRole('button', { name: /copy/i });
+    await user.click(copyButton);
+
+    expect(execCommandMock).toHaveBeenCalledWith('copy');
+    expect(screen.getByRole('button', { name: /copied/i })).toBeInTheDocument();
+
+    // Restore
+    Object.defineProperty(navigator, 'clipboard', {
+      value: originalClipboard,
+      writable: true,
+      configurable: true,
+    });
+    Object.defineProperty(document, 'execCommand', {
+      value: originalExecCommand,
+      writable: true,
+      configurable: true,
+    });
   });
 });
