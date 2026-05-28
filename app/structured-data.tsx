@@ -1,6 +1,10 @@
 import Script from 'next/script';
-import { siteUrl } from '@/lib/config';
-import { StructuredDataProps } from '@/types';
+
+const siteUrl = process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
+interface StructuredDataProps {
+  url?: string;
+}
 
 export default function StructuredData({ url = siteUrl }: StructuredDataProps) {
   const websiteSchema = {
@@ -95,9 +99,6 @@ export default function StructuredData({ url = siteUrl }: StructuredDataProps) {
 
   return (
     <>
-      {/* dangerouslySetInnerHTML is used here because Next.js Script does not support
-          a children/content prop for JSON-LD. Each script has a unique id to ensure
-          stable rendering across re-renders. */}
       <Script
         id="website-schema"
         type="application/ld+json"
