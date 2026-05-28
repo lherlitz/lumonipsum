@@ -5,7 +5,7 @@ export default function MDRNumbers({ className = '' }: MDRNumbersProps) {
   const { rows, opacities, positions } = useMdrAnimation();
 
   return (
-    <div className={`generated-text ${className}`}>
+    <div className={`generated-text font-mono ${className}`}>
       <div className="p-4 w-full">
         {rows.map((row, i) => (
           <div
