@@ -4,9 +4,10 @@ test.describe('Visual Tests', () => {
   test('Terminal Aesthetic', async ({ page }) => {
     await page.goto('http://localhost:3000');
     
-    // Verify dark background
+    // Verify main element is visible and uses the archive background class
     const mainElement = page.locator('main');
-    await expect(mainElement).toHaveClass(/bg-\[#0e1a26\]/);
+    await expect(mainElement).toBeVisible();
+    await expect(mainElement).toHaveClass(/bg-\[var\(--archive\)\]/);
     
     // Verify terminal screen is present
     await expect(page.locator('[class*="terminal"]')).toBeVisible().catch(() => {
