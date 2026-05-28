@@ -106,14 +106,14 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen p-4 sm:p-8 flex items-center justify-center bg-[#0e1a26]">
+    <main className="min-h-screen p-4 sm:p-8 flex items-center justify-center bg-[var(--archive)]">
       <div className="w-full max-w-4xl">
         <TerminalScreen>
           <div className="text-center space-y-2 mb-12">
             <div className="flex items-center justify-center space-x-2">
-              <div className="h-2 w-2 rounded-full bg-[#afcbd6] animate-pulse"></div>
-              <h1 className="text-2xl font-mono tracking-wide">LUMON IPSUM GENERATOR</h1>
-              <div className="h-2 w-2 rounded-full bg-[#afcbd6] animate-pulse"></div>
+              <div className="h-2 w-2 rounded-full bg-[var(--protocol)] animate-pulse"></div>
+              <h1 className="text-2xl tracking-wide">LUMON IPSUM GENERATOR</h1>
+              <div className="h-2 w-2 rounded-full bg-[var(--protocol)] animate-pulse"></div>
             </div>
             <p className="text-sm opacity-80">PROTOCOL.GENERATE.TEXT</p>
           </div>
@@ -194,7 +194,7 @@ export default function Home() {
               </div>
               <div className="space-y-4">
                 {generatedText.map((paragraph, index) => (
-                  <p key={index} className="text-[#f3ffff]">{paragraph}</p>
+                  <p key={index} className="text-[var(--clarity)]">{paragraph}</p>
                 ))}
               </div>
             </GeneratedText>
