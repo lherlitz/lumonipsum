@@ -47,7 +47,8 @@ export default function Home() {
     const raw = inputRef.current?.value || '';
     if (raw === '') return paragraphs;
     const value = Number(raw);
-    return Number.isInteger(value) && value >= 1 && value <= 10 ? value : paragraphs;
+    if (Number.isNaN(value)) return paragraphs;
+    return Math.min(Math.max(Math.round(value), 1), 10);
   };
 
   const handleGenerate = (e: React.MouseEvent) => {
@@ -130,6 +131,7 @@ export default function Home() {
               aria-invalid={!!inputError}
               aria-describedby={inputError ? 'paragraphs-error' : undefined}
               className={`mx-1 ${inputError ? 'border-red-400' : ''}`}
+              data-testid="paragraphs-input"
             />
             <Button
               variant="arrow"
@@ -163,6 +165,7 @@ export default function Home() {
               onClick={handleGenerate}
               type="button"
               aria-label="Generate text"
+              data-testid="generate-button"
             >
               INITIATE GENERATION{showCursor ? '_' : ' '}
             </Button>
@@ -194,7 +197,7 @@ export default function Home() {
               </div>
               <div className="space-y-4">
                 {generatedText.map((paragraph, index) => (
-                  <p key={index} className="text-[var(--clarity)]">{paragraph}</p>
+                  <p key={index} className="text-[var(--clarity)]" data-testid="generated-paragraph">{paragraph}</p>
                 ))}
               </div>
             </GeneratedText>

@@ -7,7 +7,7 @@ interface GeneratedTextProps {
 
 export function GeneratedText({ children, className = '' }: GeneratedTextProps) {
   return (
-    <div className={`generated-text ${className}`}>
+    <div className={`generated-text ${className}`} data-testid="generated-text">
       {children}
     </div>
   );

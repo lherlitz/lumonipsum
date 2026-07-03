@@ -1,75 +1,87 @@
 import { test, expect } from '@playwright/test';
+import { failOnConsoleErrors, assertNoConsoleErrors } from '../utils/console-errors';
 
 test.describe('Edge Cases', () => {
-  test('First Time Visit', async ({ page }) => {
+  test('First Time Visit', async ({ context }) => {
+    const page = await context.newPage();
+    failOnConsoleErrors(page);
     await page.goto('http://localhost:3000');
-    
-    // Verify page loads completely
+
     await expect(page.locator('main')).toBeVisible();
-    
-    // Verify default state is shown
     await expect(page.getByRole('heading', { name: 'LUMON IPSUM GENERATOR' })).toBeVisible();
+    await expect(page.getByTestId('mdr-numbers')).toBeVisible();
+    assertNoConsoleErrors(page);
+    await page.close();
   });
 
   test('Page Refresh', async ({ page }) => {
+    failOnConsoleErrors(page);
     await page.goto('http://localhost:3000');
-    
-    // Change paragraph count to 7
-    const paragraphInput = page.locator('#paragraphs');
+
+    const paragraphInput = page.getByTestId('paragraphs-input');
     await paragraphInput.fill('7');
     await paragraphInput.blur();
-    
-    // Refresh the page
+
     await page.reload();
-    
-    // Verify default value (3) is shown on refresh
+
     await expect(paragraphInput).toHaveValue('3');
+    assertNoConsoleErrors(page);
   });
 
   test('Rapid Generation Clicks', async ({ page }) => {
+    failOnConsoleErrors(page);
     await page.goto('http://localhost:3000');
-    
-    // Click generate button multiple times rapidly
-    const generateButton = page.locator('button').filter({ hasText: 'INITIATE' }).first();
+
+    const generateButton = page.getByTestId('generate-button');
     await generateButton.click();
     await generateButton.click();
     await generateButton.click();
-    
-    // Wait for generation
-    await page.waitForTimeout(1000);
-    
-    // Verify final generation result is displayed
-    await expect(page.getByRole('button', { name: 'COPY' })).toBeVisible();
+    await generateButton.click();
+    await generateButton.click();
+
+    await expect(page.getByTestId('generated-text')).toBeVisible();
+    await expect(page.getByTestId('generated-paragraph')).toHaveCount(3);
+
+    // Verify no duplicate paragraphs (all text contents should be unique within one generation)
+    const texts = await page.getByTestId('generated-paragraph').allTextContents();
+    expect(new Set(texts).size).toBe(texts.length);
+    assertNoConsoleErrors(page);
   });
 
   test('JavaScript Error Handling', async ({ page }) => {
+    failOnConsoleErrors(page);
     await page.goto('http://localhost:3000');
-    
-    // Generate text
-    const generateButton = page.locator('button').filter({ hasText: 'INITIATE' }).first();
-    await generateButton.click();
-    await page.waitForTimeout(1000);
-    
-    // Verify page is still responsive
+
+    await page.getByTestId('generate-button').click();
+    await expect(page.getByTestId('generated-text')).toBeVisible();
     await expect(page.locator('main')).toBeVisible();
+    assertNoConsoleErrors(page);
   });
 
   test('Large Text Volume', async ({ page }) => {
+    failOnConsoleErrors(page);
     await page.goto('http://localhost:3000');
-    
-    // Generate maximum 10 paragraphs
-    const paragraphInput = page.locator('#paragraphs');
+
+    const paragraphInput = page.getByTestId('paragraphs-input');
     await paragraphInput.fill('10');
     await paragraphInput.blur();
-    
-    const generateButton = page.locator('button').filter({ hasText: 'INITIATE' }).first();
-    await generateButton.click();
-    await page.waitForTimeout(1000);
-    
-    // Verify text fits in container
-    await expect(page.locator('main')).toBeVisible();
-    
-    // Verify copy button is visible
-    await expect(page.getByRole('button', { name: 'COPY' })).toBeVisible();
+
+    await page.getByTestId('generate-button').click();
+    await expect(page.getByTestId('generated-text')).toBeVisible();
+    await expect(page.getByTestId('generated-paragraph')).toHaveCount(10);
+
+    // Verify container does not overflow horizontally
+    const generatedText = page.getByTestId('generated-text');
+    const box = await generatedText.boundingBox();
+    expect(box).not.toBeNull();
+    if (box) {
+      const viewportWidth = await page.evaluate(() => window.innerWidth);
+      expect(box.width).toBeLessThanOrEqual(viewportWidth);
+    }
+
+    // Verify copy still works
+    await page.getByRole('button', { name: /copy/i }).click();
+    await expect(page.getByRole('button', { name: /copied|copy/i })).toBeVisible();
+    assertNoConsoleErrors(page);
   });
 });

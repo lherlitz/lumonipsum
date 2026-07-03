@@ -1,81 +1,79 @@
 import { test, expect } from '@playwright/test';
+import { failOnConsoleErrors, assertNoConsoleErrors } from '../utils/console-errors';
 
 test.describe('Accessibility', () => {
-  test('Keyboard Navigation', async ({ page }) => {
+  test('Keyboard Navigation', async ({ page, browserName }) => {
+    failOnConsoleErrors(page);
     await page.goto('http://localhost:3000');
-    
-    // Press Tab to navigate through interactive elements
+
+    const paragraphInput = page.getByTestId('paragraphs-input');
+
+    // Tab order: input → increment → decrement → generate
     await page.keyboard.press('Tab');
-    
-    // Verify focus on paragraph input
-    const paragraphInput = page.locator('#paragraphs');
     await expect(paragraphInput).toBeFocused();
-    
-    // Continue tabbing
-    await page.keyboard.press('Tab');
-    await page.keyboard.press('Tab');
-    await page.keyboard.press('Tab');
-    
-    // Verify focus indicators are visible
-    const generateButton = page.locator('button').filter({ hasText: 'INITIATE' }).first();
-    await expect(generateButton).toBeVisible();
+
+    // WebKit/Firefox may not focus buttons on Tab by default; skip strict focus assertions there
+    if (browserName === 'chromium') {
+      await page.keyboard.press('Tab');
+      await expect(page.getByRole('button', { name: 'Increase paragraphs' })).toBeFocused();
+
+      await page.keyboard.press('Tab');
+      await expect(page.getByRole('button', { name: 'Decrease paragraphs' })).toBeFocused();
+
+      await page.keyboard.press('Tab');
+      await expect(page.getByTestId('generate-button')).toBeFocused();
+
+      // Generate text and verify copy button is reachable via Tab
+      await page.getByTestId('generate-button').click();
+      await expect(page.locator('[data-testid="generated-text"]')).toBeVisible();
+      await page.keyboard.press('Tab');
+      await expect(page.getByRole('button', { name: /copy/i })).toBeFocused();
+    }
+    assertNoConsoleErrors(page);
   });
 
   test('ARIA Labels', async ({ page }) => {
+    failOnConsoleErrors(page);
     await page.goto('http://localhost:3000');
-    
-    // Check increment button aria-label
-    const incrementButton = page.getByRole('button', { name: 'Increase paragraphs' });
-    await expect(incrementButton).toHaveAttribute('aria-label', 'Increase paragraphs');
-    
-    // Check decrement button aria-label
-    const decrementButton = page.getByRole('button', { name: 'Decrease paragraphs' });
-    await expect(decrementButton).toHaveAttribute('aria-label', 'Decrease paragraphs');
-    
-    // Check generate button aria-label
-    const generateButton = page.locator('button').filter({ hasText: 'INITIATE' }).first();
+
+    await expect(page.getByRole('button', { name: 'Increase paragraphs' })).toHaveAttribute('aria-label', 'Increase paragraphs');
+    await expect(page.getByRole('button', { name: 'Decrease paragraphs' })).toHaveAttribute('aria-label', 'Decrease paragraphs');
+
+    const generateButton = page.getByTestId('generate-button');
     await expect(generateButton).toHaveAttribute('aria-label', 'Generate text');
-    
-    // Generate text
+
     await generateButton.click();
-    await page.waitForTimeout(1000);
-    
-    // Check copy button - verify it exists (aria-label may not be set)
-    const copyButton = page.getByRole('button', { name: 'COPY' });
+    await expect(page.locator('[data-testid="generated-text"]')).toBeVisible();
+
+    const copyButton = page.getByRole('button', { name: 'Copy generated text to clipboard' });
     await expect(copyButton).toBeVisible();
+    assertNoConsoleErrors(page);
   });
 
   test('Error Accessibility', async ({ page }) => {
+    failOnConsoleErrors(page);
     await page.goto('http://localhost:3000');
-    
-    // Enter invalid value 11 in input
-    const paragraphInput = page.locator('#paragraphs');
+
+    const paragraphInput = page.getByTestId('paragraphs-input');
     await paragraphInput.fill('11');
     await paragraphInput.blur();
-    
-    // Verify aria-invalid=true on input
+
     await expect(paragraphInput).toHaveAttribute('aria-invalid', 'true');
-    
-    // Verify error message is visible (check by ID to avoid Next.js announcer)
     await expect(page.locator('#paragraphs-error')).toBeVisible();
-    
-    // Verify input is associated with error message via aria-describedby
     await expect(paragraphInput).toHaveAttribute('aria-describedby', 'paragraphs-error');
+    assertNoConsoleErrors(page);
   });
 
   test('Screen Reader Compatibility', async ({ page }) => {
+    failOnConsoleErrors(page);
     await page.goto('http://localhost:3000');
-    
-    // Verify page structure is proper (headings, regions)
+
     await expect(page.getByRole('heading', { name: 'LUMON IPSUM GENERATOR' })).toBeVisible();
     await expect(page.locator('main')).toBeVisible();
-    
-    // Generate text
-    const generateButton = page.locator('button').filter({ hasText: 'INITIATE' }).first();
-    await generateButton.click();
-    await page.waitForTimeout(1000);
-    
-    // Verify generated paragraphs are accessible
-    await expect(page.getByRole('button', { name: 'COPY' })).toBeVisible();
+
+    await page.getByTestId('generate-button').click();
+    await expect(page.locator('[data-testid="generated-text"]')).toBeVisible();
+    await expect(page.getByTestId('generated-paragraph').first()).toBeVisible();
+    assertNoConsoleErrors(page);
   });
 });

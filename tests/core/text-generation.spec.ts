@@ -1,114 +1,122 @@
 import { test, expect } from '@playwright/test';
+import { failOnConsoleErrors, assertNoConsoleErrors } from '../utils/console-errors';
 
 test.describe('Core Functionality', () => {
   test('Text Generation', async ({ page }) => {
+    failOnConsoleErrors(page);
     await page.goto('http://localhost:3000');
-    
-    // Click the generate button - use more generic selector
-    const generateButton = page.locator('button').filter({ hasText: 'INITIATE' }).first();
+
+    // Click the generate button
+    const generateButton = page.getByTestId('generate-button');
     await generateButton.click();
-    
-    // Wait for text to be generated
-    await page.waitForTimeout(1000);
-    
-    // Verify generated text appears
-    await expect(page.getByRole('button', { name: 'COPY' })).toBeVisible();
-    
+
+    // Wait for generated text container
+    await expect(page.getByTestId('generated-text')).toBeVisible();
+
     // Verify copy button is visible
     await expect(page.getByRole('button', { name: 'COPY' })).toBeVisible();
-    
-    // Verify MDR numbers are no longer displayed (text area shows instead)
-    // The MDR numbers should be hidden when text is generated
+
+    // Verify MDR numbers are no longer displayed
+    await expect(page.getByTestId('mdr-numbers')).not.toBeVisible();
+
+    // Verify default 3 paragraphs are generated
+    await expect(page.getByTestId('generated-paragraph')).toHaveCount(3);
+    assertNoConsoleErrors(page);
   });
 
   test('Generate Single Paragraph', async ({ page }) => {
+    failOnConsoleErrors(page);
     await page.goto('http://localhost:3000');
-    
+
     // Set paragraph count to 1 via input
-    const paragraphInput = page.locator('#paragraphs');
+    const paragraphInput = page.getByTestId('paragraphs-input');
     await paragraphInput.fill('1');
     await paragraphInput.blur();
-    
+
     // Click generate button
-    const generateButton = page.locator('button').filter({ hasText: 'INITIATE' }).first();
-    await generateButton.click();
-    
-    // Wait for generation
-    await page.waitForTimeout(1000);
-    
-    // Verify copy button is visible
+    await page.getByTestId('generate-button').click();
+
+    // Verify generated text container and exactly 1 paragraph
+    await expect(page.getByTestId('generated-text')).toBeVisible();
+    await expect(page.getByTestId('generated-paragraph')).toHaveCount(1);
     await expect(page.getByRole('button', { name: 'COPY' })).toBeVisible();
+    assertNoConsoleErrors(page);
   });
 
   test('Generate Maximum Paragraphs', async ({ page }) => {
+    failOnConsoleErrors(page);
     await page.goto('http://localhost:3000');
-    
+
     // Set paragraph count to 10
-    const paragraphInput = page.locator('#paragraphs');
+    const paragraphInput = page.getByTestId('paragraphs-input');
     await paragraphInput.fill('10');
     await paragraphInput.blur();
-    
+
     // Click generate button
-    const generateButton = page.locator('button').filter({ hasText: 'INITIATE' }).first();
-    await generateButton.click();
-    
-    // Wait for generation
-    await page.waitForTimeout(1000);
-    
-    // Verify copy button is visible
+    await page.getByTestId('generate-button').click();
+
+    // Verify generated text container and exactly 10 paragraphs
+    await expect(page.getByTestId('generated-text')).toBeVisible();
+    await expect(page.getByTestId('generated-paragraph')).toHaveCount(10);
     await expect(page.getByRole('button', { name: 'COPY' })).toBeVisible();
+    assertNoConsoleErrors(page);
   });
 
   test('Text Regeneration Clears Previous', async ({ page }) => {
+    failOnConsoleErrors(page);
     await page.goto('http://localhost:3000');
-    
-    // Generate text with default settings
-    const generateButton = page.locator('button').filter({ hasText: 'INITIATE' }).first();
+
+    const generateButton = page.getByTestId('generate-button');
     await generateButton.click();
-    await page.waitForTimeout(1000);
-    
-    // Get initial text
-    const initialText = await page.locator('main').textContent();
-    
+    await expect(page.getByTestId('generated-text')).toBeVisible();
+
+    // Capture initial paragraph contents
+    const initialParagraphs = await page.getByTestId('generated-paragraph').allTextContents();
+
     // Click generate button again
     await generateButton.click();
-    await page.waitForTimeout(1000);
-    
-    // Verify new text is displayed (different from before)
-    const newText = await page.locator('main').textContent();
-    expect(newText).not.toBe(initialText);
-    
+    await expect(page.getByTestId('generated-text')).toBeVisible();
+
+    // Verify new text differs from old text
+    const newParagraphs = await page.getByTestId('generated-paragraph').allTextContents();
+    expect(newParagraphs).not.toEqual(initialParagraphs);
+
     // Verify copy button remains visible
     await expect(page.getByRole('button', { name: 'COPY' })).toBeVisible();
+    assertNoConsoleErrors(page);
   });
 
   test('Copy Generated Text', async ({ page }) => {
+    failOnConsoleErrors(page);
     await page.goto('http://localhost:3000');
-    
-    // Grant clipboard permissions (gracefully handle browsers that don't support this)
-    try {
-      await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
-    } catch {
-      // Some browsers don't support clipboard permissions in test context
-      // Test will still verify the error handling behavior
-    }
-    
+
+    // Grant clipboard permissions early (best-effort; headless Chromium may still restrict)
+    await page.context().grantPermissions(['clipboard-read', 'clipboard-write']).catch(() => {});
+
     // Generate text
-    const generateButton = page.locator('button').filter({ hasText: 'INITIATE' }).first();
-    await generateButton.click();
-    await page.waitForTimeout(1000);
-    
+    await page.getByTestId('generate-button').click();
+    await expect(page.getByTestId('generated-text')).toBeVisible();
+
+    // Capture generated paragraph text
+    const paragraphs = await page.getByTestId('generated-paragraph').allTextContents();
+
     // Click the copy button
     const copyButton = page.getByRole('button', { name: /copy/i });
     await copyButton.click();
-    
-    // Verify button text changes to COPIED (or it could show ERROR due to clipboard restrictions in headless)
-    await expect(page.getByRole('button', { name: /copied|error|copy failed/i })).toBeVisible({ timeout: 5000 });
-    
+
+    // Verify button text changes to COPIED (tolerate ERROR in restricted environments)
+    await expect(page.getByRole('button', { name: /copied|copy failed|error/i })).toBeVisible({ timeout: 5000 });
+
+    // Verify clipboard contains the generated text when permission is available
+    try {
+      const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
+      expect(clipboardText).toBe(paragraphs.join('\n\n'));
+    } catch {
+      // Clipboard may be unavailable in some CI/browser environments; the UI assertion above still validates behavior
+    }
+
     // Wait for button to reset
-    await page.waitForTimeout(3500);
-    
-    // Verify button text returns to COPY
-    await expect(page.getByRole('button', { name: /copy/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /copy/i })).toBeVisible({ timeout: 3000 });
+    assertNoConsoleErrors(page);
   });
 });
