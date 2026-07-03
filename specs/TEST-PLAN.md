@@ -34,7 +34,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.2. Increment Paragraph Count
 
-**File:** `tests/core/increment-paragraphs.spec.ts`
+**File:** `tests/core/increment-decrement.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -50,7 +50,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.3. Decrement Paragraph Count
 
-**File:** `tests/core/decrement-paragraphs.spec.ts`
+**File:** `tests/core/increment-decrement.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -64,7 +64,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.4. Minimum Paragraph Count Enforcement
 
-**File:** `tests/core/minimum-paragraph-limit.spec.ts`
+**File:** `tests/core/increment-decrement.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -79,7 +79,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.5. Maximum Paragraph Count Enforcement
 
-**File:** `tests/core/maximum-paragraph-limit.spec.ts`
+**File:** `tests/core/increment-decrement.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -110,10 +110,11 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
   - Copy button appears
   - MDR numbers are replaced by generated text
   - Each paragraph is displayed separately
+  - Paragraph count matches the requested value
 
 #### 1.7. Generate Single Paragraph
 
-**File:** `tests/core/generate-single-paragraph.spec.ts`
+**File:** `tests/core/text-generation.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -129,7 +130,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.8. Generate Maximum Paragraphs
 
-**File:** `tests/core/generate-max-paragraphs.spec.ts`
+**File:** `tests/core/text-generation.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -145,7 +146,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.9. Text Regeneration Clears Previous
 
-**File:** `tests/core/regenerate-text.spec.ts`
+**File:** `tests/core/text-generation.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -162,7 +163,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.10. Copy Generated Text
 
-**File:** `tests/core/copy-to-clipboard.spec.ts`
+**File:** `tests/core/text-generation.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -176,10 +177,11 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
   - Text is copied to clipboard
   - Copy button text changes to COPIED
   - After 2 seconds, button text returns to COPY
+  - Clipboard contains the generated text
 
 #### 1.11. Clipboard Error Handling
 
-**File:** `tests/core/clipboard-error.spec.ts`
+**File:** `tests/core/text-generation.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -192,12 +194,12 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 **Expected Results:**
   - Error message appears
   - Copy button shows ERROR
-  - Error message COPY FAILED - MANUAL COPY REQUIRED is visible
+  - Error message "Copy failed. Please select the text and press Ctrl+C / Cmd+C." is visible
   - Button becomes disabled
 
 #### 1.12. Input Validation - Valid Values
 
-**File:** `tests/core/input-validation-valid.spec.ts`
+**File:** `tests/core/input-validation.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -215,7 +217,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.13. Input Validation - Invalid Values
 
-**File:** `tests/core/input-validation-invalid.spec.ts`
+**File:** `tests/core/input-validation.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -232,13 +234,13 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
   12. Verify error message appears
 
 **Expected Results:**
-  - Input is cleared or reset to previous valid value
+  - Input retains the previous valid value or resets to the last valid paragraph count
   - Error message shown for out-of-range values
   - Generate uses last valid paragraph count
 
 #### 1.14. Input Validation - Decimal Values
 
-**File:** `tests/core/input-decimal-values.spec.ts`
+**File:** `tests/core/input-validation.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -255,7 +257,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.15. Input State Synchronization
 
-**File:** `tests/core/input-state-sync.spec.ts`
+**File:** `tests/core/input-validation.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -272,7 +274,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.16. Keyboard Navigation
 
-**File:** `tests/accessibility/keyboard-navigation.spec.ts`
+**File:** `tests/accessibility/keyboard.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -288,7 +290,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.17. ARIA Labels
 
-**File:** `tests/accessibility/aria-labels.spec.ts`
+**File:** `tests/accessibility/keyboard.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -299,14 +301,14 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
   6. Check copy button aria-label
 
 **Expected Results:**
-  - Increase button has accessible name Increase paragraphs
-  - Decrease button has accessible name Decrease paragraphs
-  - Generate button has accessible name Generate text
-  - Copy button has accessible name Copy
+  - Increase button has accessible name "Increase paragraphs"
+  - Decrease button has accessible name "Decrease paragraphs"
+  - Generate button has accessible name "Generate text"
+  - Copy button has an accessible name that describes its action (e.g., "Copy generated text to clipboard")
 
 #### 1.18. Error Accessibility
 
-**File:** `tests/accessibility/error-announcements.spec.ts`
+**File:** `tests/accessibility/keyboard.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -322,7 +324,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.19. Screen Reader Compatibility
 
-**File:** `tests/accessibility/screen-reader.spec.ts`
+**File:** `tests/accessibility/keyboard.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -338,7 +340,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.20. MDR Numbers Animation
 
-**File:** `tests/visual/mdr-animation.spec.ts`
+**File:** `tests/visual/responsive.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -352,10 +354,11 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
   - MDR numbers animate smoothly
   - Animation runs at consistent frame rate
   - No visual glitches during animation
+  - MDR numbers disappear after text generation
 
 #### 1.21. Cursor Animation
 
-**File:** `tests/visual/cursor-animation.spec.ts`
+**File:** `tests/core/initial-render.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -369,7 +372,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.22. Terminal Aesthetic
 
-**File:** `tests/visual/terminal-appearance.spec.ts`
+**File:** `tests/visual/responsive.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -386,7 +389,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.23. Mobile Responsive Layout
 
-**File:** `tests/visual/responsive-mobile.spec.ts`
+**File:** `tests/visual/responsive.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -403,7 +406,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.24. Tablet Responsive Layout
 
-**File:** `tests/visual/responsive-tablet.spec.ts`
+**File:** `tests/visual/responsive.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -418,7 +421,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.25. Desktop Responsive Layout
 
-**File:** `tests/visual/responsive-desktop.spec.ts`
+**File:** `tests/visual/responsive.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -433,7 +436,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.26. First Time Visit
 
-**File:** `tests/edge/first-visit.spec.ts`
+**File:** `tests/edge/edge-cases.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com in incognito/private window
@@ -447,7 +450,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.27. Page Refresh
 
-**File:** `tests/edge/page-refresh.spec.ts`
+**File:** `tests/edge/edge-cases.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -456,12 +459,13 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
   4. Verify default value (3) is shown on refresh (no persistence expected)
 
 **Expected Results:**
-  - Page loads with cached state from sessionStorage
-  - Previous paragraph count is restored
+  - Page reloads with default state
+  - Paragraph count resets to 3
+  - No state is persisted in sessionStorage
 
 #### 1.28. Browser Back Navigation
 
-**File:** `tests/edge/browser-back-button.spec.ts`
+**File:** `tests/edge/edge-cases.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -475,7 +479,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.29. Rapid Generation Clicks
 
-**File:** `tests/edge/rapid-generation.spec.ts`
+**File:** `tests/edge/edge-cases.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -485,13 +489,13 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
   5. Verify no duplicate text displayed
 
 **Expected Results:**
-  - Generate button is disabled during generation
-  - Button shows loading state
+  - Generate button handles repeated clicks without crashing
+  - Final generation result is displayed
   - Previous state is cleared before new generation starts
 
 #### 1.30. JavaScript Error Handling
 
-**File:** `tests/edge/javascript-error-handling.spec.ts`
+**File:** `tests/edge/edge-cases.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -507,7 +511,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.31. Special Characters in Generated Text
 
-**File:** `tests/edge/special-characters.spec.ts`
+**File:** `tests/text-generation/text-generation.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -518,12 +522,12 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 **Expected Results:**
   - Content is readable
-  - Special characters dont break rendering
+  - Special characters don't break rendering
   - All Lumon phrases display correctly
 
 #### 1.32. Large Text Volume
 
-**File:** `tests/edge/large-text-handling.spec.ts`
+**File:** `tests/edge/edge-cases.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -533,13 +537,13 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
   5. Verify copy still works for full text
 
 **Expected Results:**
-  - Very long generated text doesnt break layout
+  - Very long generated text doesn't break layout
   - Text wraps properly
   - Scrollbar appears if needed
 
 #### 1.33. Initial Page Load Performance
 
-**File:** `tests/performance/initial-load.spec.ts`
+**File:** `tests/performance/performance.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -553,7 +557,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.34. Text Generation Speed
 
-**File:** `tests/performance/generation-speed.spec.ts`
+**File:** `tests/performance/performance.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -567,7 +571,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.35. Memory Management
 
-**File:** `tests/performance/memory-management.spec.ts`
+**File:** `tests/performance/performance.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -581,7 +585,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.36. Chromium Browser
 
-**File:** `tests/compatibility/chromium.spec.ts`
+**File:** `tests/compatibility/basic.spec.ts` (runs under Chromium project)
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com in Chromium
@@ -594,7 +598,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.37. WebKit Browser
 
-**File:** `tests/compatibility/webkit.spec.ts`
+**File:** `tests/compatibility/basic.spec.ts` (runs under WebKit project)
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com in WebKit
@@ -607,7 +611,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.38. Firefox Browser
 
-**File:** `tests/compatibility/firefox.spec.ts`
+**File:** `tests/compatibility/basic.spec.ts` (runs under Firefox project)
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com in Firefox
@@ -620,7 +624,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.39. Page Metadata
 
-**File:** `tests/seo/metadata.spec.ts`
+**File:** `tests/seo/seo.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -635,7 +639,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.40. Semantic HTML
 
-**File:** `tests/seo/semantic-markup.spec.ts`
+**File:** `tests/seo/seo.spec.ts`
 
 **Steps:**
   1. Navigate to https://www.lumonipsum.com
@@ -650,7 +654,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.41. Generate Exactly One Paragraph
 
-**File:** `tests/text-generation/one-paragraph.spec.ts`
+**File:** `tests/text-generation/text-generation.spec.ts`
 
 **Steps:**
   1. Set paragraph count to 1
@@ -664,7 +668,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.42. Generate Five Paragraphs
 
-**File:** `tests/text-generation/five-paragraphs.spec.ts`
+**File:** `tests/text-generation/text-generation.spec.ts`
 
 **Steps:**
   1. Set paragraph count to 5
@@ -678,7 +682,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.43. Generate Ten Paragraphs
 
-**File:** `tests/text-generation/ten-paragraphs.spec.ts`
+**File:** `tests/text-generation/text-generation.spec.ts`
 
 **Steps:**
   1. Set paragraph count to 10
@@ -692,7 +696,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.44. Sentence Structure
 
-**File:** `tests/text-generation/sentence-structure.spec.ts`
+**File:** `tests/text-generation/text-generation.spec.ts`
 
 **Steps:**
   1. Generate text
@@ -707,12 +711,12 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.45. Lumon Phrases Inclusion
 
-**File:** `tests/text-generation/lumon-phrases.spec.ts`
+**File:** `tests/text-generation/text-generation.spec.ts`
 
 **Steps:**
   1. Generate text multiple times
   2. Verify Lumon phrases occasionally appear
-  3. Verify phrases like Please enjoy each number equally appear at least once across multiple generations
+  3. Verify phrases like "Please enjoy each number equally" appear at least once across multiple generations
 
 **Expected Results:**
   - Lumon phrases are included in output
@@ -720,7 +724,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.46. Lumon Terminology
 
-**File:** `tests/text-generation/lumon-terminology.spec.ts`
+**File:** `tests/text-generation/text-generation.spec.ts`
 
 **Steps:**
   1. Generate text multiple times
@@ -733,7 +737,7 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.47. Text Randomness
 
-**File:** `tests/text-generation/randomness.spec.ts`
+**File:** `tests/text-generation/text-generation.spec.ts`
 
 **Steps:**
   1. Generate text
@@ -749,17 +753,22 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 #### 1.48. Paragraph Count Clamping
 
-**File:** `tests/text-generation/input-clamping.spec.ts`
+**File:** `tests/text-generation/text-generation.spec.ts`
 
 **Steps:**
-  1. Call generateLumonIpsum with 0
-  2. Verify 1 paragraph is generated
-  3. Call with -5
-  4. Verify 1 paragraph is generated
-  5. Call with 15
-  6. Verify 10 paragraphs are generated
+  1. Set paragraph count to 0
+  2. Generate text
+  3. Verify 1 paragraph is generated
+  4. Set paragraph count to -5
+  5. Verify 1 paragraph is generated
+  6. Set paragraph count to 15
+  7. Verify 10 paragraphs are generated
 
 **Expected Results:**
   - Invalid counts are clamped to valid range
   - Count below 1 becomes 1
   - Count above 10 becomes 10
+
+## Test-to-Plan Traceability
+
+For a mapping of each scenario to the actual grouped Playwright spec files and test names, see `specs/TEST-PLAN-MAPPING.md`.
