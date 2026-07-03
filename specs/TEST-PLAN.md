@@ -8,8 +8,6 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 ### 1. Core Functionality
 
-**Seed:** `tests/seed.spec.ts`
-
 #### 1.1. Initial Page Load
 
 **File:** `tests/core/initial-render.spec.ts`
