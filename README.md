@@ -34,7 +34,7 @@ A Severance-themed Lorem Ipsum text generator that creates placeholder text insp
 | **Styling** | Tailwind CSS with custom design tokens |
 | **Fonts** | VT323 (primary), IBM Plex Mono, Geist, Geist Mono |
 | **Unit Testing** | Jest + React Testing Library |
-| **E2E Testing** | Playwright (Chromium, Firefox, WebKit) |
+| **E2E Testing** | e2e (Chromium, Firefox, WebKit) |
 | **CI/CD** | GitHub Actions |
 | **Analytics** | Vercel Analytics & Speed Insights |
 | **Deployment** | Vercel (automatic from `main` branch) |
@@ -43,7 +43,7 @@ A Severance-themed Lorem Ipsum text generator that creates placeholder text insp
 
 ### Prerequisites
 
-- **Node.js** 20 or later
+- **Node.js** 22.12 or later
 - **npm** 10 or later (comes with Node.js)
 
 ### Installation
@@ -106,16 +106,16 @@ lumonipsum/
 │   └── use-mdr-animation.test.ts
 ├── types/
 │   └── index.ts               # Shared TypeScript type definitions
-├── tests/                      # E2E and integration tests (Playwright)
+├── tests/                      # End-to-end tests (e2e)
 │   ├── accessibility/         # Accessibility audit tests
 │   ├── compatibility/         # Cross-browser compatibility tests
 │   ├── core/                  # Core feature smoke tests
 │   ├── edge/                  # Edge case scenarios
 │   ├── performance/           # Performance benchmarks
-│   ├── playwright/            # Playwright configuration helpers
 │   ├── seo/                   # SEO and metadata validation
 │   ├── text-generation/       # Text generation integration tests
-│   └── visual/                # Visual regression tests
+│   ├── utils/                 # Shared browser helpers
+│   └── visual/                # Visual checks
 ├── public/                     # Static assets served at root
 │   ├── lumon-globe.svg        # Lumon globe icon for Open Graph
 │   ├── og-image.png           # Open Graph preview image
@@ -131,7 +131,7 @@ lumonipsum/
 ├── next.config.ts
 ├── postcss.config.mjs
 ├── eslint.config.mjs
-├── playwright.config.ts
+├── e2e.config.ts
 ├── jest.config.js
 └── jest.setup.js
 ```
@@ -214,23 +214,25 @@ Unit tests use **Jest** with **React Testing Library** and cover:
 ### End-to-End Tests
 
 ```bash
-# Install Playwright browsers (first time only)
-npx playwright install --with-deps
+# Install browsers (first time only)
+npx @e2e-dev/web install chromium firefox webkit --with-deps
 
-# Run all E2E tests
-npx playwright test
+# Run the suite. Locally this includes phone and tablet viewports.
+npm run test:e2e
 
-# Run on specific browsers
-npx playwright test --project=firefox
+# One browser
+npx e2e run --target firefox
 ```
 
-E2E tests use **Playwright** and are organized in the [`tests/`](tests/) directory:
+Agent steps need `XAI_API_KEY` in `.env.local` (gitignored). `e2e.config.ts` loads that file when it exists.
+
+E2E tests live in [`tests/`](tests/) as `*.e2e.ts`:
 
 - `tests/core/` — Core feature smoke tests
-- `tests/accessibility/` — WCAG accessibility audits
-- `tests/compatibility/` — Cross-browser compatibility (Firefox, WebKit)
-- `tests/visual/` — Visual regression snapshots
-- `tests/performance/` — Performance benchmarks
+- `tests/accessibility/` — Keyboard and ARIA checks
+- `tests/compatibility/` — Generate and copy controls, run on every browser
+- `tests/visual/` — Terminal styling, cursor, and MDR animation
+- `tests/performance/` — Load time, generation time, and repeated generation
 - `tests/seo/` — SEO metadata validation
 - `tests/text-generation/` — Text generation end-to-end flows
 - `tests/edge/` — Edge case and error scenarios
@@ -242,8 +244,10 @@ GitHub Actions runs on every PR to `main`:
 1. **Lint** — ESLint checks
 2. **Unit tests** — Jest with coverage
 3. **Build** — Production build verification
-4. **E2E (Chromium)** — Full Playwright suite on Chromium
-5. **Smoke E2E (Firefox + WebKit)** — Cross-browser smoke tests
+4. **E2E (Chromium)** — Full e2e suite on Chromium
+5. **Smoke E2E** — Initial render and compatibility on Chromium, Firefox, and WebKit
+
+The e2e jobs read `XAI_API_KEY` from the repository secret of the same name.
 
 ## Deployment
 
@@ -261,6 +265,7 @@ To deploy manually:
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `NEXT_PUBLIC_SITE_URL` | No | Canonical site URL (defaults to `https://www.lumonipsum.com`) |
+| `XAI_API_KEY` | For e2e agent steps | xAI API key. Locally in `.env.local`; in CI, a GitHub Actions secret |
 
 ## Contributing
 

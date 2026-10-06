@@ -126,6 +126,7 @@ export default function Home() {
               type="text"
               inputMode="numeric"
               id="paragraphs"
+              autoComplete="off"
               defaultValue="3"
               onChange={(e) => validate(e.target.value)}
               aria-invalid={!!inputError}

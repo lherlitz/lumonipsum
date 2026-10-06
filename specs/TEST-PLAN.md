@@ -769,4 +769,4 @@ Comprehensive test plan for the Lumon Ipsum web application - a Severance-themed
 
 ## Test-to-Plan Traceability
 
-For a mapping of each scenario to the actual grouped Playwright spec files and test names, see `specs/TEST-PLAN-MAPPING.md`.
+For a mapping of each scenario to the e2e files and test names, see `specs/TEST-PLAN-MAPPING.md`.
