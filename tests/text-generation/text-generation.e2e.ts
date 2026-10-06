@@ -15,7 +15,7 @@ describe('Text Generation Tests', () => {
     await expect(paragraphs).toHaveCount(1);
     const text = await paragraphs.first().textContent();
     expect(text).toBeTruthy();
-    expect(text.split(/[.!?]+/).filter(Boolean).length).toBeGreaterThan(0);
+    expect((text ?? '').split(/[.!?]+/).filter(Boolean).length).toBeGreaterThan(0);
   });
 
   test('Generate Five Paragraphs', async ({ app, screen }) => {
@@ -47,7 +47,7 @@ describe('Text Generation Tests', () => {
     for (let i = 0; i < count; i++) {
       const text = await paragraphs.nth(i).textContent();
       expect(text).toBeTruthy();
-      const sentences = text.split(/[.!?]+/).filter(Boolean);
+      const sentences = (text ?? '').split(/[.!?]+/).filter(Boolean);
       expect(sentences.length).toBeGreaterThan(0);
       for (const sentence of sentences) {
         expect(sentence.trim()[0]).toMatch(/[A-Z]/);

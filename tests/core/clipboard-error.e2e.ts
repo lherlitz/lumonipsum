@@ -17,6 +17,7 @@ describe('Core Functionality', () => {
           },
         },
       });
+      return null;
     });
 
     await screen.getByRole('button', 'Copy generated text to clipboard').click();

@@ -56,6 +56,7 @@ describe('Accessibility', () => {
     await browser.evaluate(() => {
       const input = document.querySelector('[data-testid="paragraphs-input"]');
       if (input instanceof HTMLElement) input.blur();
+      return null;
     });
 
     await expect(paragraphInput).toHaveAttribute('aria-invalid', 'true');

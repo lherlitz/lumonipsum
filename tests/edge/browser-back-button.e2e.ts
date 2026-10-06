@@ -10,9 +10,11 @@ describe('Edge Cases', () => {
 
     await browser.evaluate(() => {
       history.pushState({}, '', '/?ref=forward');
+      return null;
     });
     await browser.evaluate(() => {
       history.back();
+      return null;
     });
 
     await expect(browser).toHaveURL('http://localhost:3000/');
