@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs';
 import type { E2EConfig } from 'e2e';
+import { github } from '@e2e-dev/github';
 import { web } from '@e2e-dev/web';
 import { xai } from '@ai-sdk/xai';
 
@@ -55,7 +56,7 @@ export default {
   tests: 'tests/**/*.e2e.ts',
   retries: process.env.CI ? 2 : 0,
   ...(process.env.CI ? { workers: 4 } : {}),
-  reporters: ['list'],
+  reporters: ['list', github()],
   trace: process.env.CI ? 'on-first-retry' : 'on',
   video: 'retain-on-failure',
   targets: process.env.CI ? desktop : [...desktop, ...sized],
