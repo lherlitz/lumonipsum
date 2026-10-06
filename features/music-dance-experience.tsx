@@ -1,11 +1,21 @@
 import type { MdeTone } from '@/hooks/use-music-dance-experience';
 
-const RIPPLE_DIGITS = '0147258369';
+const CEILING_PANELS = 24;
 
 interface MusicDanceExperienceProps {
   active: boolean;
   tone: MdeTone;
   cancelledNotice: boolean;
+}
+
+export function MdeCeiling() {
+  return (
+    <div className="mde-ceiling" aria-hidden="true" data-testid="mde-ceiling">
+      {Array.from({ length: CEILING_PANELS }, (_, index) => (
+        <span key={index} className="mde-panel" />
+      ))}
+    </div>
+  );
 }
 
 export function MusicDanceExperience({ active, tone, cancelledNotice }: MusicDanceExperienceProps) {
@@ -25,19 +35,6 @@ export function MusicDanceExperience({ active, tone, cancelledNotice }: MusicDan
       >
         {message}
       </p>
-      {active && (
-        <div className="mde-ripple" aria-hidden="true" data-testid="mde-ripple">
-          {RIPPLE_DIGITS.split('').map((digit, index) => (
-            <span
-              key={`${digit}-${index}`}
-              className="mde-digit"
-              style={{ animationDelay: `${(index % 10) * 0.08}s` }}
-            >
-              {digit}
-            </span>
-          ))}
-        </div>
-      )}
     </div>
   );
 }

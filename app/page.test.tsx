@@ -316,11 +316,12 @@ describe('Home Page', () => {
         'MUSIC DANCE EXPERIENCE - REINSTATED'
       );
     }, { timeout: 2500 });
-    expect(screen.getByTestId('mde-ripple')).toBeInTheDocument();
+    expect(screen.getByTestId('mde-ceiling').querySelectorAll('.mde-panel')).toHaveLength(24);
 
     await user.keyboard('{Escape}');
 
     expect(screen.queryByTestId('mde-banner')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('mde-ceiling')).not.toBeInTheDocument();
     expect(screen.getByTestId('mde-cancelled')).toHaveTextContent(
       'THE MUSIC DANCE EXPERIENCE IS OFFICIALLY CANCELLED.'
     );

@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { generateLumonIpsum } from '@/lib/lumon-ipsum';
 import { useCursorAnimation } from '@/hooks/use-cursor-animation';
 import { useMusicDanceExperience } from '@/hooks/use-music-dance-experience';
-import { MusicDanceExperience } from '@/features/music-dance-experience';
+import { MdeCeiling, MusicDanceExperience } from '@/features/music-dance-experience';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
 import { TerminalScreen } from '@/ui/terminal-screen';
@@ -111,9 +111,10 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen p-4 sm:p-8 flex items-center justify-center bg-[var(--archive)]">
+    <main className={`min-h-screen p-4 sm:p-8 flex items-center justify-center ${mde.active ? 'mde-room' : 'bg-[var(--archive)]'}`}>
       <div className="w-full max-w-4xl">
         <TerminalScreen className={mde.active ? 'mde-active' : ''}>
+          {mde.active && <MdeCeiling />}
           <div className="text-center space-y-2 mb-12">
             <div className="flex items-center justify-center space-x-2">
               <div className="h-2 w-2 rounded-full bg-[var(--protocol)] animate-pulse"></div>
