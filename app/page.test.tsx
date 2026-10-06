@@ -289,4 +289,46 @@ describe('Home Page', () => {
       configurable: true,
     });
   });
+
+  it('unlocks the music dance experience on the 7th generate click and cancels it', async () => {
+    const user = userEvent.setup();
+    render(<Home />);
+
+    const generateButton = screen.getByRole('button', { name: /generate text/i });
+
+    for (let i = 0; i < 6; i++) {
+      await user.click(generateButton);
+    }
+
+    expect(screen.queryByTestId('mde-banner')).not.toBeInTheDocument();
+    expect(mockGenerateLumonIpsum).toHaveBeenCalledTimes(6);
+
+    await user.click(generateButton);
+
+    expect(mockGenerateLumonIpsum).toHaveBeenCalledTimes(7);
+    expect(screen.getByText('Mock paragraph 1')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /copy generated text/i })).toHaveTextContent(
+      'ENJOY ALL DANCES EQUALLY'
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId('mde-banner')).toHaveTextContent(
+        'MUSIC DANCE EXPERIENCE - REINSTATED'
+      );
+    }, { timeout: 2500 });
+    expect(screen.getByTestId('mde-ripple')).toBeInTheDocument();
+
+    await user.keyboard('{Escape}');
+
+    expect(screen.queryByTestId('mde-banner')).not.toBeInTheDocument();
+    expect(screen.getByTestId('mde-cancelled')).toHaveTextContent(
+      'THE MUSIC DANCE EXPERIENCE IS OFFICIALLY CANCELLED.'
+    );
+
+    await user.click(generateButton);
+
+    expect(mockGenerateLumonIpsum).toHaveBeenCalledTimes(8);
+    expect(screen.queryByTestId('mde-banner')).not.toBeInTheDocument();
+    expect(screen.getByText('Mock paragraph 1')).toBeInTheDocument();
+  });
 });

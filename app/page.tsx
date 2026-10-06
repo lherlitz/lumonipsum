@@ -4,6 +4,8 @@ import { useState, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { generateLumonIpsum } from '@/lib/lumon-ipsum';
 import { useCursorAnimation } from '@/hooks/use-cursor-animation';
+import { useMusicDanceExperience } from '@/hooks/use-music-dance-experience';
+import { MusicDanceExperience } from '@/features/music-dance-experience';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
 import { TerminalScreen } from '@/ui/terminal-screen';
@@ -18,6 +20,7 @@ export default function Home() {
   const [copyError, setCopyError] = useState(false);
   const [inputError, setInputError] = useState<string>('');
   const showCursor = useCursorAnimation();
+  const mde = useMusicDanceExperience();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const validate = (raw: string) => {
@@ -65,6 +68,7 @@ export default function Home() {
     setGeneratedText(text);
     setCopied(false);
     setCopyError(false);
+    mde.registerGenerateClick();
   };
 
   const incrementParagraphs = (e: React.MouseEvent) => {
@@ -109,7 +113,7 @@ export default function Home() {
   return (
     <main className="min-h-screen p-4 sm:p-8 flex items-center justify-center bg-[var(--archive)]">
       <div className="w-full max-w-4xl">
-        <TerminalScreen>
+        <TerminalScreen className={mde.active ? 'mde-active' : ''}>
           <div className="text-center space-y-2 mb-12">
             <div className="flex items-center justify-center space-x-2">
               <div className="h-2 w-2 rounded-full bg-[var(--protocol)] animate-pulse"></div>
@@ -179,6 +183,12 @@ export default function Home() {
             </Button>
           </div>
 
+          <MusicDanceExperience
+            active={mde.active}
+            tone={mde.tone}
+            cancelledNotice={mde.cancelledNotice}
+          />
+
           {generatedText.length > 0 ? (
             <GeneratedText className="mb-12">
               <div className="flex flex-col items-end gap-1">
@@ -191,6 +201,7 @@ export default function Home() {
                   variant="copy"
                   onClick={handleCopy}
                   disabled={copyError}
+                  className={mde.showDanceCopy && !copyError && !copied ? 'mde-copy-label' : ''}
                   aria-label={
                     copyError
                       ? 'Copy failed'
@@ -200,7 +211,13 @@ export default function Home() {
                   }
                   aria-live="polite"
                 >
-                  {copyError ? 'ERROR' : copied ? 'COPIED' : 'COPY'}
+                  {copyError
+                    ? 'ERROR'
+                    : copied
+                      ? 'COPIED'
+                      : mde.showDanceCopy
+                        ? 'ENJOY ALL DANCES EQUALLY'
+                        : 'COPY'}
                 </Button>
               </div>
               <div className="space-y-4">
