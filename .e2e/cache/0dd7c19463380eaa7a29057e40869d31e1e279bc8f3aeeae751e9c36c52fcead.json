@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "trace-1",
+  "createdAt": "2026-10-06T14:47:07.931Z",
+  "payload": {
+    "actions": [
+      {
+        "name": "type",
+        "summary": "type \"11\" into textbox \"paragraphs-input\"",
+        "target": {
+          "role": "textbox",
+          "testId": "paragraphs-input"
+        },
+        "value": "11"
+      }
+    ],
+    "executor": {
+      "name": "e2e-default-agent",
+      "version": "2"
+    },
+    "recordedFor": {
+      "testId": "tests/core/input-validation.e2e.ts::Core%20Functionality::Input%20Validation%20-%20Invalid%20Values",
+      "targetId": "tablet",
+      "instructionDigest": "5ae240af1f6d066af1ed291d2909164358c84abc17ba286e9666837c4598330e",
+      "paramsDigest": "58101bf5056f962fbab9f7e72202f349a1ab367e364d9e73fdc543c04e59db61",
+      "callIndex": 0,
+      "agent": "default"
+    },
+    "summary": "Set the paragraph count field to 11. The input now shows value 11, and the alert \"Please enter a number between 1 and 10\" appeared.",
+    "startPath": "/",
+    "endPath": "/",
+    "endAnchors": [
+      {
+        "role": "alert",
+        "name": "Please enter a number between 1 and 10"
+      },
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "11"
+      },
+      {
+        "role": "button",
+        "name": "Generate text",
+        "text": "INITIATE GENERATION",
+        "testId": "generate-button"
+      }
+    ],
+    "goneAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "3"
+      },
+      {
+        "role": "button",
+        "name": "Generate text",
+        "text": "INITIATE GENERATION_",
+        "testId": "generate-button"
+      }
+    ],
+    "endWaitMs": 13150
+  }
+}

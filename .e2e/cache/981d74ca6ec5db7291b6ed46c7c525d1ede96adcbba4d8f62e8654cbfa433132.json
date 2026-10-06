@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "trace-1",
+  "createdAt": "2026-10-06T14:46:49.576Z",
+  "payload": {
+    "actions": [
+      {
+        "name": "type",
+        "summary": "type \"0\" into textbox \"paragraphs-input\"",
+        "target": {
+          "role": "textbox",
+          "testId": "paragraphs-input"
+        },
+        "value": "0"
+      }
+    ],
+    "executor": {
+      "name": "e2e-default-agent",
+      "version": "2"
+    },
+    "recordedFor": {
+      "testId": "tests/core/input-validation.e2e.ts::Core%20Functionality::Input%20Validation%20-%20Invalid%20Values",
+      "targetId": "mobile-safari",
+      "instructionDigest": "5ae240af1f6d066af1ed291d2909164358c84abc17ba286e9666837c4598330e",
+      "paramsDigest": "b5da670deebffa683aa63b331c32a85c4b3d9c718e2a65ae7232eca4f059e380",
+      "callIndex": 0,
+      "agent": "default"
+    },
+    "summary": "Set the paragraphs field to 0. The input now shows 0.",
+    "startPath": "/",
+    "endPath": "/",
+    "endAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "0"
+      },
+      {
+        "role": "button",
+        "name": "Generate text",
+        "text": "INITIATE GENERATION_",
+        "testId": "generate-button"
+      }
+    ],
+    "goneAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "11"
+      },
+      {
+        "role": "button",
+        "name": "Generate text",
+        "text": "INITIATE GENERATION",
+        "testId": "generate-button"
+      }
+    ],
+    "endWaitMs": 13326
+  }
+}

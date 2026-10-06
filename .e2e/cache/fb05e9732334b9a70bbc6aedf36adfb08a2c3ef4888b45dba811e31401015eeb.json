@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "trace-1",
+  "createdAt": "2026-10-06T14:46:30.709Z",
+  "payload": {
+    "actions": [
+      {
+        "name": "tap",
+        "summary": "tap button \"Copy generated text to clipboard\"",
+        "target": {
+          "role": "button",
+          "name": "Copy generated text to clipboard",
+          "text": "COPY"
+        }
+      }
+    ],
+    "executor": {
+      "name": "e2e-default-agent",
+      "version": "2"
+    },
+    "recordedFor": {
+      "testId": "tests/core/text-generation.e2e.ts::Core%20Functionality::Copy%20Generated%20Text",
+      "targetId": "mobile-safari",
+      "instructionDigest": "a3ae508bdb67ad727ad6a6fc82722245cb54e47c9c787e1bfb2c7c39463ff6a7",
+      "paramsDigest": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "callIndex": 0,
+      "agent": "default"
+    },
+    "summary": "Tapped the Copy button. It changed from \"Copy generated text to clipboard\" (COPY) to \"Text copied to clipboard\" (COPIED), confirming the generated text was copied.",
+    "startPath": "/",
+    "endPath": "/",
+    "endAnchors": [
+      {
+        "role": "button",
+        "name": "Generate text",
+        "text": "INITIATE GENERATION",
+        "testId": "generate-button"
+      },
+      {
+        "role": "button",
+        "name": "Text copied to clipboard",
+        "text": "COPIED"
+      }
+    ],
+    "goneAnchors": [
+      {
+        "role": "button",
+        "name": "Generate text",
+        "text": "INITIATE GENERATION_",
+        "testId": "generate-button"
+      },
+      {
+        "role": "button",
+        "name": "Copy generated text to clipboard",
+        "text": "COPY"
+      }
+    ],
+    "endWaitMs": 11968
+  }
+}
