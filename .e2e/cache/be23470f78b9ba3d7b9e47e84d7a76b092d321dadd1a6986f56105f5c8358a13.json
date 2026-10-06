@@ -1,6 +1,6 @@
 {
   "schemaVersion": "trace-1",
-  "createdAt": "2026-10-06T14:43:25.451Z",
+  "createdAt": "2026-10-06T16:11:38.218Z",
   "payload": {
     "actions": [
       {
@@ -52,7 +52,7 @@
       "callIndex": 0,
       "agent": "default"
     },
-    "summary": "Set the paragraph count to 7, increased it once (to 8), then decreased it twice. The field now shows 6.",
+    "summary": "Set the paragraph count to 7, increased once (8), and decreased twice. The field now shows 6.",
     "startPath": "/",
     "endPath": "/",
     "endAnchors": [
@@ -60,15 +60,6 @@
         "role": "textbox",
         "testId": "paragraphs-input",
         "value": "6"
-      },
-      {
-        "role": "button",
-        "name": "Generate text",
-        "text": "INITIATE GENERATION",
-        "testId": "generate-button"
-      },
-      {
-        "testId": "mdr-numbers"
       }
     ],
     "goneAnchors": [
@@ -76,14 +67,8 @@
         "role": "textbox",
         "testId": "paragraphs-input",
         "value": "3"
-      },
-      {
-        "role": "button",
-        "name": "Generate text",
-        "text": "INITIATE GENERATION_",
-        "testId": "generate-button"
       }
     ],
-    "endWaitMs": 13729
+    "endWaitMs": 19156
   }
 }

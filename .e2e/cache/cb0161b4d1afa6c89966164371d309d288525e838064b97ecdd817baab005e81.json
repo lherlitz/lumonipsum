@@ -1,6 +1,6 @@
 {
   "schemaVersion": "trace-1",
-  "createdAt": "2026-10-06T14:46:07.305Z",
+  "createdAt": "2026-10-06T16:11:20.504Z",
   "payload": {
     "actions": [
       {
@@ -79,7 +79,7 @@
       "callIndex": 0,
       "agent": "default"
     },
-    "summary": "Increased paragraphs from 3 to 10 by tapping Increase paragraphs seven times. The paragraphs field now shows 10.",
+    "summary": "Increased the paragraph count from 3 to 10 using the Increase paragraphs button. The paragraphs input now shows 10.",
     "startPath": "/",
     "endPath": "/",
     "endAnchors": [
@@ -87,12 +87,6 @@
         "role": "textbox",
         "testId": "paragraphs-input",
         "value": "10"
-      },
-      {
-        "role": "button",
-        "name": "Generate text",
-        "text": "INITIATE GENERATION",
-        "testId": "generate-button"
       }
     ],
     "goneAnchors": [
@@ -100,14 +94,8 @@
         "role": "textbox",
         "testId": "paragraphs-input",
         "value": "3"
-      },
-      {
-        "role": "button",
-        "name": "Generate text",
-        "text": "INITIATE GENERATION_",
-        "testId": "generate-button"
       }
     ],
-    "endWaitMs": 13177
+    "endWaitMs": 12391
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "trace-1",
-  "createdAt": "2026-10-06T14:47:07.931Z",
+  "createdAt": "2026-10-06T16:13:50.291Z",
   "payload": {
     "actions": [
       {
@@ -25,7 +25,7 @@
       "callIndex": 0,
       "agent": "default"
     },
-    "summary": "Set the paragraph count field to 11. The input now shows value 11, and the alert \"Please enter a number between 1 and 10\" appeared.",
+    "summary": "Set the paragraph count field to 11. The input shows 11, and the alert \"Please enter a number between 1 and 10\" appeared.",
     "startPath": "/",
     "endPath": "/",
     "endAnchors": [
@@ -37,12 +37,6 @@
         "role": "textbox",
         "testId": "paragraphs-input",
         "value": "11"
-      },
-      {
-        "role": "button",
-        "name": "Generate text",
-        "text": "INITIATE GENERATION",
-        "testId": "generate-button"
       }
     ],
     "goneAnchors": [
@@ -50,14 +44,8 @@
         "role": "textbox",
         "testId": "paragraphs-input",
         "value": "3"
-      },
-      {
-        "role": "button",
-        "name": "Generate text",
-        "text": "INITIATE GENERATION_",
-        "testId": "generate-button"
       }
     ],
-    "endWaitMs": 13150
+    "endWaitMs": 12972
   }
 }

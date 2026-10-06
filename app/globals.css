@@ -170,6 +170,10 @@ p {
   transform: scale(0.98);
 }
 
+.generate-cursor.is-off {
+  opacity: 0;
+}
+
 .generated-text {
   background-color: var(--sector);
   border: 1px solid var(--protocol);
