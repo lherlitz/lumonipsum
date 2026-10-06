@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "trace-1",
+  "createdAt": "2026-10-06T14:47:02.122Z",
+  "payload": {
+    "actions": [
+      {
+        "name": "tap",
+        "summary": "tap button \"Increase paragraphs\"",
+        "target": {
+          "role": "button",
+          "name": "Increase paragraphs",
+          "text": "▲"
+        }
+      },
+      {
+        "name": "tap",
+        "summary": "tap button \"Increase paragraphs\"",
+        "target": {
+          "role": "button",
+          "name": "Increase paragraphs",
+          "text": "▲"
+        }
+      },
+      {
+        "name": "tap",
+        "summary": "tap button \"Increase paragraphs\"",
+        "target": {
+          "role": "button",
+          "name": "Increase paragraphs",
+          "text": "▲"
+        }
+      },
+      {
+        "name": "type",
+        "summary": "type \"10\" into textbox \"paragraphs-input\"",
+        "target": {
+          "role": "textbox",
+          "testId": "paragraphs-input"
+        },
+        "value": "10"
+      }
+    ],
+    "executor": {
+      "name": "e2e-default-agent",
+      "version": "2"
+    },
+    "recordedFor": {
+      "testId": "tests/core/increment-decrement.e2e.ts::Core%20Functionality::Maximum%20Paragraph%20Count%20Enforcement",
+      "targetId": "mobile-safari",
+      "instructionDigest": "50805a7f4e906c757fcb18676a222e33030e56b218b0d27478eeea34f14076cf",
+      "paramsDigest": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "callIndex": 0,
+      "agent": "default"
+    },
+    "summary": "Paragraph count is now 10. The paragraphs input shows value 10 beside PARAGRAPHS REQUESTED.",
+    "startPath": "/",
+    "endPath": "/",
+    "endAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "10"
+      }
+    ],
+    "goneAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "3"
+      }
+    ],
+    "endWaitMs": 13033
+  }
+}

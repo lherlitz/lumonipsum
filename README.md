@@ -247,7 +247,7 @@ GitHub Actions runs on every PR to `main`:
 4. **E2E (Chromium)** — Full e2e suite on Chromium
 5. **Smoke E2E** — Initial render and compatibility on Chromium, Firefox, and WebKit
 
-The e2e jobs read `XAI_API_KEY` from the repository secret of the same name. Each job posts its results as a pull request comment and uploads `.e2e/artifacts` so the comment's screenshot, video, and trace links resolve.
+The e2e jobs read `XAI_API_KEY` from the repository secret of the same name. Agent steps are recorded in `.e2e/cache/` and committed. CI replays those recordings and does not write new ones. `--strict-cache` fails the Chromium job when a recording no longer matches the page, instead of calling the model. Each job posts its results as a pull request comment and uploads `.e2e/artifacts` so the comment's screenshot, video, and trace links resolve.
 
 ## Deployment
 

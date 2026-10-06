@@ -169,7 +169,7 @@ describe('Home Page', () => {
     render(<Home />);
 
     expect(screen.getByRole('button', { name: /generate text/i })).toBeInTheDocument();
-    // The text should be "INITIATE GENERATION " (with space instead of _)
+    expect(screen.getByTestId('generate-cursor')).toHaveClass('is-off');
   });
 
   it('clears generated text when generating new text', async () => {

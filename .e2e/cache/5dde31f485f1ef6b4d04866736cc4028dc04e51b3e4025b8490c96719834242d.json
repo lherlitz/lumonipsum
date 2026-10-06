@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "trace-1",
+  "createdAt": "2026-10-06T14:46:25.847Z",
+  "payload": {
+    "actions": [
+      {
+        "name": "type",
+        "summary": "type \"-5\" into textbox \"paragraphs-input\"",
+        "target": {
+          "role": "textbox",
+          "testId": "paragraphs-input"
+        },
+        "value": "-5"
+      }
+    ],
+    "executor": {
+      "name": "e2e-default-agent",
+      "version": "2"
+    },
+    "recordedFor": {
+      "testId": "tests/core/input-validation.e2e.ts::Core%20Functionality::Input%20Validation%20-%20Invalid%20Values",
+      "targetId": "webkit",
+      "instructionDigest": "5ae240af1f6d066af1ed291d2909164358c84abc17ba286e9666837c4598330e",
+      "paramsDigest": "ecef2596d2dc4cc296546b5d790952ee7e7be4c51255c37bcc7c696aff94f7a9",
+      "callIndex": 0,
+      "agent": "default"
+    },
+    "summary": "Set the paragraph count to -5. The paragraphs field shows -5, and the alert \"Please enter a number between 1 and 10\" is still displayed.",
+    "startPath": "/",
+    "endPath": "/",
+    "endAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "-5"
+      }
+    ],
+    "goneAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "0"
+      }
+    ],
+    "endWaitMs": 14606
+  }
+}

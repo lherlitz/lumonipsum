@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "trace-1",
+  "createdAt": "2026-10-06T16:12:04.274Z",
+  "payload": {
+    "actions": [
+      {
+        "name": "type",
+        "summary": "type \"abc\" into textbox \"paragraphs-input\"",
+        "target": {
+          "role": "textbox",
+          "testId": "paragraphs-input"
+        },
+        "value": "abc"
+      }
+    ],
+    "executor": {
+      "name": "e2e-default-agent",
+      "version": "2"
+    },
+    "recordedFor": {
+      "testId": "tests/core/input-validation.e2e.ts::Core%20Functionality::Input%20Validation%20-%20Invalid%20Values",
+      "targetId": "mobile-chrome",
+      "instructionDigest": "5ae240af1f6d066af1ed291d2909164358c84abc17ba286e9666837c4598330e",
+      "paramsDigest": "afef793fc69ce78450c4c66b8d52dd7c7779bfa4871c521469741f22d5dde564",
+      "callIndex": 0,
+      "agent": "default"
+    },
+    "summary": "Set the paragraph count field to abc. The textbox shows value abc. The alert \"Please enter a number between 1 and 10\" remains visible.",
+    "startPath": "/",
+    "endPath": "/",
+    "endAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "abc"
+      }
+    ],
+    "goneAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "-5"
+      }
+    ],
+    "endWaitMs": 15436
+  }
+}

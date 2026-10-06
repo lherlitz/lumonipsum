@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "trace-1",
+  "createdAt": "2026-10-06T16:11:20.504Z",
+  "payload": {
+    "actions": [
+      {
+        "name": "tap",
+        "summary": "tap button \"Increase paragraphs\"",
+        "target": {
+          "role": "button",
+          "name": "Increase paragraphs",
+          "text": "▲"
+        }
+      },
+      {
+        "name": "tap",
+        "summary": "tap button \"Increase paragraphs\"",
+        "target": {
+          "role": "button",
+          "name": "Increase paragraphs",
+          "text": "▲"
+        }
+      },
+      {
+        "name": "tap",
+        "summary": "tap button \"Increase paragraphs\"",
+        "target": {
+          "role": "button",
+          "name": "Increase paragraphs",
+          "text": "▲"
+        }
+      },
+      {
+        "name": "tap",
+        "summary": "tap button \"Increase paragraphs\"",
+        "target": {
+          "role": "button",
+          "name": "Increase paragraphs",
+          "text": "▲"
+        }
+      },
+      {
+        "name": "tap",
+        "summary": "tap button \"Increase paragraphs\"",
+        "target": {
+          "role": "button",
+          "name": "Increase paragraphs",
+          "text": "▲"
+        }
+      },
+      {
+        "name": "tap",
+        "summary": "tap button \"Increase paragraphs\"",
+        "target": {
+          "role": "button",
+          "name": "Increase paragraphs",
+          "text": "▲"
+        }
+      },
+      {
+        "name": "tap",
+        "summary": "tap button \"Increase paragraphs\"",
+        "target": {
+          "role": "button",
+          "name": "Increase paragraphs",
+          "text": "▲"
+        }
+      }
+    ],
+    "executor": {
+      "name": "e2e-default-agent",
+      "version": "2"
+    },
+    "recordedFor": {
+      "testId": "tests/core/increment-decrement.e2e.ts::Core%20Functionality::Maximum%20Paragraph%20Count%20Enforcement",
+      "targetId": "firefox",
+      "instructionDigest": "50805a7f4e906c757fcb18676a222e33030e56b218b0d27478eeea34f14076cf",
+      "paramsDigest": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "callIndex": 0,
+      "agent": "default"
+    },
+    "summary": "Increased the paragraph count from 3 to 10 using the Increase paragraphs button. The paragraphs input now shows 10.",
+    "startPath": "/",
+    "endPath": "/",
+    "endAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "10"
+      }
+    ],
+    "goneAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "3"
+      }
+    ],
+    "endWaitMs": 12391
+  }
+}

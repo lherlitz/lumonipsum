@@ -168,7 +168,14 @@ export default function Home() {
               aria-label="Generate text"
               data-testid="generate-button"
             >
-              INITIATE GENERATION{showCursor ? '_' : ' '}
+              INITIATE GENERATION
+              <span
+                aria-hidden="true"
+                data-testid="generate-cursor"
+                className={showCursor ? 'generate-cursor' : 'generate-cursor is-off'}
+              >
+                _
+              </span>
             </Button>
           </div>
 

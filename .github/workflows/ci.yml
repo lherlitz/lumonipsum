@@ -51,7 +51,7 @@ jobs:
       run: npx @e2e-dev/web install chromium --with-deps
 
     - name: Run e2e tests
-      run: npx e2e run --target chromium
+      run: npx e2e run --target chromium --strict-cache
       env:
         XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         GITHUB_TOKEN: ${{ github.token }}
