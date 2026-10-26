@@ -34,7 +34,11 @@ const lumonPhrases = [
 ];
 
 describe('generateLumonIpsum', () => {
-  const mockRandom = jest.spyOn(Math, 'random');
+  let mockRandom: jest.SpiedFunction<typeof Math.random>;
+
+  beforeEach(() => {
+    mockRandom = jest.spyOn(Math, 'random').mockReturnValue(0.5);
+  });
 
   afterEach(() => {
     mockRandom.mockRestore();
