@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "trace-1",
+  "createdAt": "2026-11-20T13:30:10.855Z",
+  "payload": {
+    "actions": [
+      {
+        "name": "tap",
+        "summary": "tap button \"Decrease paragraphs\"",
+        "target": {
+          "role": "button",
+          "name": "Decrease paragraphs",
+          "text": "▼"
+        }
+      },
+      {
+        "name": "tap",
+        "summary": "tap button \"Decrease paragraphs\"",
+        "target": {
+          "role": "button",
+          "name": "Decrease paragraphs",
+          "text": "▼"
+        }
+      },
+      {
+        "name": "tap",
+        "summary": "tap button \"Decrease paragraphs\"",
+        "target": {
+          "role": "button",
+          "name": "Decrease paragraphs",
+          "text": "▼"
+        }
+      }
+    ],
+    "executor": {
+      "name": "e2e-default-agent",
+      "version": "2"
+    },
+    "recordedFor": {
+      "testId": "tests/core/increment-decrement.e2e.ts::Core%20Functionality::Minimum%20Paragraph%20Count%20Enforcement",
+      "targetId": "chromium",
+      "instructionDigest": "e3f71856b5c35bef2e59268fad4baba0146e3bdc6425f75d5b4f1c5fc9a411f6",
+      "paramsDigest": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "callIndex": 0,
+      "agent": "default"
+    },
+    "recordedBy": {
+      "provider": "xai.responses",
+      "model": "grok-4.7"
+    },
+    "summary": "Decreased the paragraph count from 3 to 1. A further Decrease paragraphs tap left the field at 1, so it will not go any lower.",
+    "startPath": "/",
+    "endPath": "/",
+    "endAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "1"
+      },
+      {
+        "testId": "mdr-numbers"
+      }
+    ],
+    "goneAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "3"
+      }
+    ],
+    "endWaitMs": 24746,
+    "keyedBy": {
+      "cacheSchema": "trace-1",
+      "policyVersion": "conservative/6",
+      "project": "a57bc6c9995d57ea8ad6e369f23fb4e855da5ee767d25a0085f1991a0b30b3a7",
+      "platform": "web",
+      "engineName": "web",
+      "engineSpiVersion": 1,
+      "appIdentity": "e18a7246aa64bc6cabcfc1fff593fa36af4d2bccf2dc172e6d2c8d9ad9cb96af",
+      "agentContextDigest": "6b3556c012b3f8ebdaaa2538176a532dc098fda9fce44641e82d8eb8b447cc53"
+    }
+  }
+}

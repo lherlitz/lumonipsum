@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "trace-1",
+  "createdAt": "2026-11-20T13:31:05.175Z",
+  "payload": {
+    "actions": [
+      {
+        "name": "type",
+        "summary": "type \"-5\" into textbox \"paragraphs-input\"",
+        "target": {
+          "role": "textbox",
+          "testId": "paragraphs-input"
+        },
+        "value": "-5"
+      }
+    ],
+    "executor": {
+      "name": "e2e-default-agent",
+      "version": "2"
+    },
+    "recordedFor": {
+      "testId": "tests/core/input-validation.e2e.ts::Core%20Functionality::Input%20Validation%20-%20Invalid%20Values",
+      "targetId": "chromium",
+      "instructionDigest": "5ae240af1f6d066af1ed291d2909164358c84abc17ba286e9666837c4598330e",
+      "paramsDigest": "ecef2596d2dc4cc296546b5d790952ee7e7be4c51255c37bcc7c696aff94f7a9",
+      "callIndex": 0,
+      "agent": "default"
+    },
+    "recordedBy": {
+      "provider": "xai.responses",
+      "model": "grok-4.7"
+    },
+    "summary": "Set the paragraph count to -5. The paragraphs input shows value -5, and the alert \"Please enter a number between 1 and 10\" remains visible.",
+    "startPath": "/",
+    "endPath": "/",
+    "endAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "-5"
+      }
+    ],
+    "goneAnchors": [
+      {
+        "role": "textbox",
+        "testId": "paragraphs-input",
+        "value": "0"
+      }
+    ],
+    "endWaitMs": 20290,
+    "keyedBy": {
+      "cacheSchema": "trace-1",
+      "policyVersion": "conservative/6",
+      "project": "a57bc6c9995d57ea8ad6e369f23fb4e855da5ee767d25a0085f1991a0b30b3a7",
+      "platform": "web",
+      "engineName": "web",
+      "engineSpiVersion": 1,
+      "appIdentity": "e18a7246aa64bc6cabcfc1fff593fa36af4d2bccf2dc172e6d2c8d9ad9cb96af",
+      "agentContextDigest": "6b3556c012b3f8ebdaaa2538176a532dc098fda9fce44641e82d8eb8b447cc53"
+    }
+  }
+}
