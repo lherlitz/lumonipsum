@@ -33,11 +33,24 @@ describe('Core Functionality', () => {
     }
   });
 
-  test('Input State Synchronization', async ({ app, agent, screen }) => {
+  test('Input State Synchronization', { requires: ['browser'] }, async ({ app, screen, browser }) => {
     await app.open('/');
 
-    await agent.act('set the paragraph count to 7, then increase it once and decrease it twice');
+    const paragraphInput = screen.getByTestId('paragraphs-input');
+    const increaseButton = screen.getByRole('button', 'Increase paragraphs');
+    const decreaseButton = screen.getByRole('button', 'Decrease paragraphs');
 
-    await expect(screen.getByTestId('paragraphs-input')).toHaveValue('6');
+    await paragraphInput.fill('7');
+    await blurParagraphInput(browser);
+    await expect(paragraphInput).toHaveValue('7');
+
+    await increaseButton.click();
+    await expect(paragraphInput).toHaveValue('8');
+
+    await decreaseButton.click();
+    await expect(paragraphInput).toHaveValue('7');
+
+    await decreaseButton.click();
+    await expect(paragraphInput).toHaveValue('6');
   });
 });
